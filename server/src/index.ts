@@ -6,7 +6,7 @@ import cors                             from 'cors';
 import fileUpload                       from 'express-fileupload';
 import {createServer, Server}           from 'http';
 import cookieParser                     from 'cookie-parser';
-// import db                               from './models';
+import connectDb                        from './config/database';
 
 
 
@@ -25,7 +25,7 @@ export class App{
 
         this.createMiddlewares();
         this.app.use('/', Router.routes);
-
+        connectDb();
         this.app.use(this.logErrors);
         this.app.use(this.errorHandler);
     }
