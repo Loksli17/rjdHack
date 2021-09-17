@@ -44,14 +44,7 @@
             <PopupWrapper v-if="showPopup" @popup-background-clicked="showPopup = false">
                 <!-- Temporary -->
                 <!-- thus, it is permanent -->
-                <div style="background: white">
-                    <h1>Окно</h1>
-                    <div>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio ad illo ullam, 
-                        illum quisquam aspernatur omnis nobis impedit odit soluta ipsam exercitationem 
-                        quo laudantium inventore adipisci. Fuga vel quos ex!
-                    </div>
-                </div>
+                <PopupUserFilter />
             </PopupWrapper>
         </teleport>
     </div>
@@ -64,6 +57,7 @@
     import { Action, Column }  from "@/components/table/types";
     import AudioService        from "../services/AudioService";
     import PopupWrapper        from "@/components/popup/PopupWrapper.vue";
+    import PopupUserFilter     from "@/components/popup/popupUserFilter/PopupUserFilter.vue";
     import Pagination          from '../components/Pagination.vue';
     import { AxiosResponse }   from 'axios';
 
@@ -76,6 +70,7 @@
             Table,
             PopupWrapper,
             Pagination,
+            PopupUserFilter
         },
         
         data() {
