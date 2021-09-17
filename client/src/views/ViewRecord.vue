@@ -38,15 +38,15 @@
 
                 <div class="content">
 
-                    <div class="text" :class="{'tab-active': textStatus}">
+                    <div class="text tab" :class="{'tab-active': textStatus}">
                         {{record.text}}
                     </div>
 
-                    <div :class="{'tab-active': errorStatus}">
+                    <div class="tab" :class="{'tab-active': errorStatus}">
                         Ошибки
                     </div>
 
-                    <div :class="{'tab-active': infoStatus}">
+                    <div class="tab" :class="{'info': infoStatus}">
 
                         <div>
                             <h4>Название</h4>
@@ -70,7 +70,7 @@
 
                         <div>
                             <h4>Работники переговоров</h4>
-                            <!-- Добавить нормальый вывод работников -->
+                            <!-- Добавить нормальный вывод работников -->
                             <div>{{record.workers}}</div>
                         </div>
                     </div>
@@ -143,6 +143,11 @@
         .row:first-child{
             padding: 0px 50px;
             @include grid-left;
+
+            a{
+                @include button;
+                @include link;
+            }
         }
 
         .row:nth-child(2){
@@ -162,7 +167,7 @@
         .row:nth-child(3){
             display: grid;
             grid-template-columns: max-content auto;
-            column-gap: 30px;
+            column-gap: 50px;
             height: 650px;
 
             .col-1{
@@ -193,22 +198,40 @@
             }
 
             .col-2{
+                padding: 40px;
+                background: $color;
+                max-height: 650px;
+                overflow-y: auto;
 
                 .content{
 
                     .text{
                         text-align: left;
                         font-size: 20px;
-                        max-height: 650px;
-                        overflow-y: auto;
                     }
                     
-                    > div{
+                    > .tab{
                         display: none;
                     }
 
                      .tab-active{
                         display: block;
+                    }
+
+                    .info{
+                        display: grid;
+                        row-gap: 30px;
+                        justify-content: left;
+
+                        div{
+                            display: grid;
+                            row-gap: 10px;
+                            justify-content: left;
+
+                            h4{
+                                text-align: left;
+                            }
+                        }
                     }
                 }
             }
