@@ -36,7 +36,9 @@
     import AudioService        from "../services/AudioService";
     import PopupWrapper        from "@/components/popup/PopupWrapper.vue";
 
+
     export default defineComponent({
+
         name: "index",
         
         components: {
@@ -52,12 +54,13 @@
                     { fieldName: "field_2", displayedName: "huh" },
                     { fieldName: "actions", displayedName: "Действия" }
                 ] as Array<Column>,
+
                 tableActions: [
                     { name: "Просмотр", path: (id: number) => `/record/${id}/view` },
                     { name: "Удалить", handler: this.removeRecord }
                 ] as Array<Action>,
                
-               showPopup: false as boolean,
+                showPopup: false as boolean,
 
                 skip   : 0 as number,
                 take   : 8 as number,

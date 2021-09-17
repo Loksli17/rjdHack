@@ -5,7 +5,6 @@ import Query                         from "../libs/query";
 import crypto                        from 'crypto-js';
 import jwt, { JwtPayload }           from 'jsonwebtoken';
 import config                        from "../config";
-import User                          from "../models/User";
 import { getRepository }             from "typeorm";
 
 

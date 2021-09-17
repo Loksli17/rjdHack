@@ -35,6 +35,8 @@ export default class AudioController{
             .andWhere('isIllegal = false')
             .getMany();
 
+        console.log(audios);
+
         res.status(200).send({audios: audios});
     }
 
