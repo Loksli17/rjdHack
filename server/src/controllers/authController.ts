@@ -5,7 +5,6 @@ import Query                         from "../libs/query";
 import crypto                        from 'crypto-js';
 import jwt, { JwtPayload }           from 'jsonwebtoken';
 import config                        from "../config";
-import User                          from "../models/User";
 import { getRepository }             from "typeorm";
 
 
@@ -112,20 +111,9 @@ export default class AuthController{
     }
 
 
-    public static async test(req: Request, res: Response){
-
-        let users: Array<User> = [];
-
-        users = await getRepository(User).createQueryBuilder().limit().getMany();
-
-        res.status(200).json({users: users});
-    }
-
-
     public static routes(): Router{
         this.router.post('/login', this.loginUser);
         this.router.post('/create-tokens', this.createTokens);
-        this.router.post('/test', this.test);
         
         return this.router;
     }

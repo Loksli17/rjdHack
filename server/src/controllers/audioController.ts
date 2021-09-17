@@ -2,8 +2,8 @@ import { Router, Request, Response, NextFunction } from "express";
 
 import ErrorMessage       from "../libs/errorMessage";
 import Query              from "../libs/query";
-import crypto             from 'crypto-js';
 import { getRepository }  from "typeorm";
+import Audio              from "../models/Audio";
 
 
 export default class AudioController{
@@ -11,7 +11,7 @@ export default class AudioController{
     private static router: Router = Router();
 
 
-    public static audiosAllIllegal(req: Request, res: Response){
+    public static async audiosAllIllegal(req: Request, res: Response){
 
         interface QueryData{
             skip: number;
@@ -20,20 +20,22 @@ export default class AudioController{
 
         let
             dataErrors: Array<keyof QueryData> = [],
-            audios    : Array<Record<string, unknown>> = [],
+            audios    : Array<Audio>           = [],
             QueryData : QueryData              = req.body;
 
         dataErrors = Query.checkData(QueryData, ['skip', 'take']);
 
         if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
 
-        res.status(200).send([
-            {id: 1, fileAudio: 'default.wav', text: 'Я сказал, тебе, что ты лучшая', isChecked: false, isIllegal: true},
-            {id: 2, fileAudio: 'default.wav', text: 'Я сказал, тебе, что ты лучшая', isChecked: false, isIllegal: true},
-            {id: 3, fileAudio: 'default.wav', text: 'Я сказал, тебе, что ты лучшая', isChecked: false, isIllegal: true},
-            {id: 4, fileAudio: 'default.wav', text: 'Я сказал, тебе, что ты лучшая', isChecked: false, isIllegal: true},
-            {id: 5, fileAudio: 'default.wav', text: 'Я сказал, тебе, что ты лучшая', isChecked: false, isIllegal: true},
-        ]);
+        //! don't forget about join for workes (FILTER)
+        audios = await getRepository(Audio).createQueryBuilder()
+            .take(QueryData.take)
+            .skip(QueryData.skip)
+            .where('isChecked = false')
+            .andWhere('isIllegal = false')
+            .getMany();
+
+        res.status(200).send({audios: audios});
     }
 
 
