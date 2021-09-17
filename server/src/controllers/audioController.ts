@@ -68,7 +68,7 @@ export default class AudioController{
         ]);
     }
 
-    
+
     /**
      * потащить общее количесвто ВСЕХ аудио
      * ! Илья

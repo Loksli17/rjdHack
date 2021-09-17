@@ -3,7 +3,9 @@ import axios, { AxiosResponse } from "axios";
 
 export default class AudioService{
 
+
     public static async getAll(take: number, skip: number){
+       
         const res: AxiosResponse = await axios.post('audio/all-illegal', {take: take, skip: skip});
         
         res.data.audios = res.data.audios.map((item: any) => {
@@ -16,7 +18,6 @@ export default class AudioService{
 
 
     public static async removeOne(id: number){
-        
         const res: AxiosResponse = await axios.post('audio/remove', {})
     }
     

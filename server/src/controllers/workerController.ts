@@ -6,6 +6,7 @@ import crypto                        from 'crypto-js';
 import jwt, { JwtPayload }           from 'jsonwebtoken';
 import config                        from "../config";
 import { getRepository }             from "typeorm";
+import Worker                        from "../models/Worker";
 
 
 export default class WorkerController{
@@ -14,12 +15,26 @@ export default class WorkerController{
     private static router: Router = Router();
 
 
-    /**
-     * api для поиска работников
-     */
-    public static search(req: Request, res: Response){
+    public static async search(req: Request, res: Response){
 
-        res.status(200).send();
+         interface QueryData{
+            searchData: string;
+        }
+
+        let
+            dataErrors: Array<keyof QueryData> = [],
+            workers    : Array<Worker>           = [],
+            QueryData : QueryData              = req.body;
+
+        dataErrors = Query.checkData(QueryData, ['searchData']);
+
+        if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
+
+        workers = await getRepository(Worker).createQueryBuilder()
+            .where('lastName like :name', {name: `%${QueryData.searchData}%`})
+            .getMany();
+
+        res.status(200).send({workers: workers});
     }
 
 
