@@ -41,7 +41,6 @@ export default class AudioController{
 
     public static async audiosAllIllegalCount(req: Request, res: Response){
 
-
         let countValue: number = 0;
 
         //! don't forget about join for workes (FILTER)
@@ -163,7 +162,7 @@ export default class AudioController{
      * Api
      * ! Андрей
      */
-    public static removeAudio(req: Request, res: Response){
+    public static async removeAudio(req: Request, res: Response){
 
         interface QueryData{
             id: number;
@@ -177,6 +176,8 @@ export default class AudioController{
         dataErrors = Query.checkData(QueryData, ['id']);
 
         if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
+
+        await getRepository(Audio).delete(QueryData.id);
 
         res.send({msg: 'Запись с id удалена'});
     }
