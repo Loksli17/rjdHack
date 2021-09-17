@@ -39,6 +39,21 @@ export default class AudioController{
     }
 
 
+    public static async audiosAllIllegalCount(req: Request, res: Response){
+
+
+        let countValue: number = 0;
+
+        //! don't forget about join for workes (FILTER)
+        countValue = await getRepository(Audio).createQueryBuilder()
+            .where('isChecked = false && isIllegal = true')
+            .orderBy('id', "DESC")
+            .getCount();
+
+        res.status(200).send({countValue: countValue});
+    }
+
+
     /**
      * Потащить все записи aудио для вывода в таблицу, учитывать skip и take для 
      * ! Илья
@@ -75,46 +90,9 @@ export default class AudioController{
      */
     public static async audiosAmountAll(req: Request, res: Response){
 
-        
-        interface QueryData{
-            skip: number;
-            take: number;
-        }
-
-        let
-            dataErrors: Array<keyof QueryData> = [],
-            audios    : Array<Record<string, unknown>> = [],
-            QueryData : QueryData              = req.body;
-
-        dataErrors = Query.checkData(QueryData, ['skip', 'take']);
-
-        if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
+        let valueCount: number = 0;
 
         res.status(200).send({amount: 40});
-    }
-
-
-    /**
-     * Количество ошибочных и необработанных файлов
-     * использовать метод count у typeOrm
-     * ! Илья
-     */
-    public static async audiosIllegalCount(req: Request, res: Response){
-
-        interface QueryData{
-            id: number;
-        }
-
-        let
-            dataErrors: Array<keyof QueryData> = [],
-            audios    : Array<Record<string, unknown>> = [],
-            QueryData : QueryData              = req.body;
-
-        dataErrors = Query.checkData(QueryData, ['id']);
-
-        if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
-
-        res.status(200).send({id: 1, fileAudio: 'default.wav', text: 'Я сказал, тебе, что ты лучшая', isChecked: true, isIllegal: false});
     }
 
 
@@ -205,10 +183,11 @@ export default class AudioController{
 
 
     public static routes(): Router{
-        this.router.post('/all-illegal'    , this.audiosAllIllegal);
+        this.router.all('/all-illegal'    , this.audiosAllIllegal);
+        this.router.all('')
         this.router.all('/all'            , this.audiosAll);
         this.router.all('/one'            , this.audioOne);
-        this.router.all('/illegal-count'  , this.audiosIllegalCount);
+        this.router.all('/illegal-count'  , this.audiosAllIllegalCount);
         this.router.all('/edit-workers'   , this.audiosAllIllegal);
         this.router.all('/add-audios'     , this.addAudios);
         this.router.all('/add-audios-file', this.addAudiosFile);

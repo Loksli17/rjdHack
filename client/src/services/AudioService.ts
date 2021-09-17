@@ -20,6 +20,11 @@ export default class AudioService{
     public static async removeOne(id: number){
         const res: AxiosResponse = await axios.post('audio/remove', {})
     }
+
+    public static async illegalCount(){
+        const res = await axios.post('audio/illegal-count');
+        return res.data.countValue;
+    }
     
 
 }

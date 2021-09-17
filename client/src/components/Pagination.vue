@@ -228,6 +228,7 @@
     
     .pages{
         margin-top: 30px;
+
         .pages-wrap{
             display: grid;
             grid-auto-flow: column;
@@ -235,7 +236,7 @@
             div{
                 .page{
                     display: block;
-                    padding: 10px 15px;
+                    padding: 15px 23px;
                     font-size: 20px;
                     color: #000;
                     text-decoration: none;
