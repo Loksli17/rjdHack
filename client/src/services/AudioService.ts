@@ -13,6 +13,12 @@ export default class AudioService{
 
         return res.data.audios;
     }
+
+
+    public static async removeOne(id: number){
+        
+        const res: AxiosResponse = await axios.post('audio/remove', {})
+    }
     
 
 }

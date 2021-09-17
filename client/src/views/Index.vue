@@ -11,7 +11,19 @@
                 :columnNames="columnNames" 
                 :rowData="records"
             />
-        </div>   
+        </div>
+
+        <div class="row">
+            <Pagination
+                ref="pagination"
+                :take=take
+                :currentPage=currentPage
+                :pageGap="7"
+                :endButton="true"
+                :startButton="true"
+                v-on:page-change="pageChangeEvt"
+            />  
+        </div>
 
         <teleport to="body">
             <PopupWrapper v-if="showPopup" @popup-background-clicked="showPopup = false">
@@ -46,7 +58,8 @@
         
         components: {
             Table,
-            PopupWrapper
+            PopupWrapper,
+            Pagination,
         },
         
         data() {
@@ -68,6 +81,8 @@
                 skip   : 0 as number,
                 take   : 12 as number,
                 records: [] as Array<Record<string, any>>,
+                currentPage   : 1 as number,
+                amountArticles: 0 as number, 
             }
         },
 

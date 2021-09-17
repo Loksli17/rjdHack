@@ -68,12 +68,38 @@ export default class AudioController{
         ]);
     }
 
-
+    
     /**
-     * потащить одну запись с аудио + потащить все ошибки к ней (сразу с типом ошибки, для этого использовать innerJoin)
+     * потащить общее количесвто ВСЕХ аудио
      * ! Илья
      */
-    public static audioOne(req: Request, res: Response){
+    public static async audiosAmountAll(req: Request, res: Response){
+
+        
+        interface QueryData{
+            skip: number;
+            take: number;
+        }
+
+        let
+            dataErrors: Array<keyof QueryData> = [],
+            audios    : Array<Record<string, unknown>> = [],
+            QueryData : QueryData              = req.body;
+
+        dataErrors = Query.checkData(QueryData, ['skip', 'take']);
+
+        if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
+
+        res.status(200).send({amount: 40});
+    }
+
+
+    /**
+     * Количество ошибочных и необработанных файлов
+     * использовать метод count у typeOrm
+     * ! Илья
+     */
+    public static async audiosIllegalCount(req: Request, res: Response){
 
         interface QueryData{
             id: number;
@@ -93,11 +119,10 @@ export default class AudioController{
 
 
     /**
-     * Количество ошибочных файлов
-     * использовать метод count у typeOrm
+     * потащить одну запись с аудио + потащить все ошибки к ней (сразу с типом ошибки, для этого использовать innerJoin)
      * ! Илья
      */
-    public static audiosIllegalCount(req: Request, res: Response){
+    public static audioOne(req: Request, res: Response){
 
         interface QueryData{
             id: number;
@@ -158,9 +183,22 @@ export default class AudioController{
 
     /**
      * Api
-     * ! Илья
+     * ! Андрей
      */
-    public static deleteAudio(req: Request, res: Response){
+    public static removeAudio(req: Request, res: Response){
+
+        interface QueryData{
+            id: number;
+        }
+
+        let
+            dataErrors: Array<keyof QueryData> = [],
+            audios    : Array<Record<string, unknown>> = [],
+            QueryData : QueryData              = req.body;
+
+        dataErrors = Query.checkData(QueryData, ['id']);
+
+        if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
 
         res.send({msg: 'Запись с id удалена'});
     }
@@ -174,6 +212,7 @@ export default class AudioController{
         this.router.all('/edit-workers'   , this.audiosAllIllegal);
         this.router.all('/add-audios'     , this.addAudios);
         this.router.all('/add-audios-file', this.addAudiosFile);
+        this.router.all('/remove',          this.removeAudio);
         
         return this.router;
     }
