@@ -187,7 +187,6 @@
         .row:not(.row:first-child){
             @include page-row;
         }
-
     }
 
 </style>

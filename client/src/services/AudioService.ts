@@ -1,5 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import moment                   from "moment";
+import { LoadingFile }          from '../components/FileUpload/FileUpload.vue';
+
 
 moment.locale("ru");
 
@@ -42,6 +44,19 @@ export default class AudioService{
         res.data.audio.isIllegalContent = res.data.audio.isIllegal ? "С нарушением регламента" : "Без нарушения";
 
         return res.data.audio;
+    }
+
+
+    public static async fileUpload(loadingFile: LoadingFile){
+        
+        const fd: FormData = new FormData();
+        fd.append('audio', loadingFile.file);
+        
+        const res = await axios.post('audio/add-audio-file', fd, {
+            onUploadProgress: (e) => {
+                loadingFile.progress = Math.floor(e.loaded * 100 / e.total);
+            }
+        });
     }
     
 }

@@ -189,8 +189,8 @@
                     prevNum: number = (this.currentPageData - 1) < 1            ? 1            : this.currentPageData - 1;
                 
                 return {
-                    next: {link: nextNum, content: '>>', class: this.itemClassData},
-                    prev: {link: prevNum, content: '<<', class: this.itemClassData},
+                    next: {link: nextNum, content: '>', class: this.itemClassData},
+                    prev: {link: prevNum, content: '<', class: this.itemClassData},
                 };
             },
             
@@ -198,8 +198,8 @@
                 if(this.amountElements <= this.take){return {last: undefined, first: undefined};}
                
                return {
-                    first: {link: 1,            content: 'First', class: this.itemClassData},
-                    last : {link: this.maxPage, content: 'Last',  class: this.itemClassData},
+                    first: {link: 1,            content: 'Первая', class: this.itemClassData},
+                    last : {link: this.maxPage, content: 'Последняя',  class: this.itemClassData},
                 };
                 
             },

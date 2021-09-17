@@ -4,6 +4,7 @@ import ErrorMessage       from "../libs/errorMessage";
 import Query              from "../libs/query";
 import { getRepository }  from "typeorm";
 import Audio              from "../models/Audio";
+import { FileArray }      from "express-fileupload";
 
 
 export default class AudioController{
@@ -160,8 +161,13 @@ export default class AudioController{
      * Api для сохранения файла
      * ! Андрей
      */
-    public static addAudiosFile(req: Request, res: Response){
+    public static addAudioFile(req: Request, res: Response){
 
+        let files: FileArray | undefined = req.files;
+
+        console.log(files);
+
+        res.status(200).send({msg: 'Success'});
     }
 
     /**
@@ -189,13 +195,12 @@ export default class AudioController{
 
     public static routes(): Router{
         this.router.all('/all-illegal'    , this.audiosAllIllegal);
-        this.router.all('')
         this.router.all('/all'            , this.audiosAll);
         this.router.all('/one'            , this.audioOne);
         this.router.all('/illegal-count'  , this.audiosAllIllegalCount);
         this.router.all('/edit-workers'   , this.audiosAllIllegal);
         this.router.all('/add-audios'     , this.addAudios);
-        this.router.all('/add-audios-file', this.addAudiosFile);
+        this.router.all('/add-audio-file' , this.addAudioFile);
         this.router.all('/remove',          this.removeAudio);
         
         return this.router;
