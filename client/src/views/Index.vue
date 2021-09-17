@@ -81,19 +81,29 @@
                 skip   : 0 as number,
                 take   : 12 as number,
                 records: [] as Array<Record<string, any>>,
-                currentPage   : 1 as number,
-                amountArticles: 0 as number, 
+
+                currentPage  : 1 as number,
+                amountRecords: 0 as number, 
             }
         },
 
         mounted: async function(){
-            this.records = await AudioService.getAll(this.take, this.skip);
+            this.records       = await AudioService.getAll(this.take, this.skip);
+            this.amountRecords = await AudioService.illegalCount();
+
+            const pagination = this.$refs.pagination! as any;
+            pagination.setAmountElements(this.amountRecords);
         },
 
         methods: {
             async removeRecord(id: number): Promise<void> {
                 console.log(id);
-            }
+            },
+
+            pageChangeEvt: async function(data: {take: number; skip: number}){
+
+                this.records = await AudioService.getAll(data.take, data.skip);
+            },
         }
     })
 </script>
