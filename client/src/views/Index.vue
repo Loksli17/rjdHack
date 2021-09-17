@@ -34,7 +34,7 @@
     import PopupWrapper        from "@/components/popup/PopupWrapper.vue";
 
     export default defineComponent({
-        name: "Index",
+        name: "index",
         components: {
             Table,
             PopupWrapper
@@ -48,7 +48,7 @@
                     { fieldName: "actions", displayedName: "Действия" }
                 ] as Array<Column>,
                 tableActions: [
-                    { name: "Просмотр", path: (id: number) => `record/${id}/view` },
+                    { name: "Просмотр", path: (id: number) => `/record/${id}/view` },
                     { name: "Удалить", handler: this.removeRecord }
                 ] as Array<Action>,
                 showPopup: false as boolean
