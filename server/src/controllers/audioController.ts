@@ -11,6 +11,9 @@ export default class AudioController{
     private static router: Router = Router();
 
 
+    /**
+     * Добавить сюда вывод worker которые привязаны к audio + посчитать количество ошибок из бд
+     */
     public static async audiosAllIllegal(req: Request, res: Response){
 
         interface QueryData{
@@ -39,11 +42,13 @@ export default class AudioController{
     }
 
 
+    /**
+     * ! Добавить сюда вывод worker которые привязаны к audio
+     */
     public static async audiosAllIllegalCount(req: Request, res: Response){
 
         let countValue: number = 0;
 
-        //! don't forget about join for workes (FILTER)
         countValue = await getRepository(Audio).createQueryBuilder()
             .where('isChecked = false && isIllegal = true')
             .orderBy('id', "DESC")
@@ -54,10 +59,9 @@ export default class AudioController{
 
 
     /**
-     * Потащить все записи aудио для вывода в таблицу, учитывать skip и take для 
-     * ! Илья
+     * ! Добавить сюда вывод worker которые привязаны к audio + посчитать количество ошибок из бд
      */
-    public static audiosAll(req: Request, res: Response){
+    public static async audiosAll(req: Request, res: Response){
 
         interface QueryData{
             skip: number;
@@ -66,20 +70,20 @@ export default class AudioController{
 
         let
             dataErrors: Array<keyof QueryData> = [],
-            audios    : Array<Record<string, unknown>> = [],
+            audios    : Array<Audio>           = [],
             QueryData : QueryData              = req.body;
 
         dataErrors = Query.checkData(QueryData, ['skip', 'take']);
 
         if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
 
-        res.status(200).send([
-            {id: 1, fileAudio: 'default.wav', text: 'Я сказал, тебе, что ты лучшая', isChecked: true, isIllegal: false},
-            {id: 2, fileAudio: 'default.wav', text: 'Я сказал, тебе, что ты лучшая', isChecked: false, isIllegal: true},
-            {id: 3, fileAudio: 'default.wav', text: 'Я сказал, тебе, что ты лучшая', isChecked: false, isIllegal: false},
-            {id: 4, fileAudio: 'default.wav', text: 'Я сказал, тебе, что ты лучшая', isChecked: true, isIllegal: true},
-            {id: 5, fileAudio: 'default.wav', text: 'Я сказал, тебе, что ты лучшая', isChecked: false, isIllegal: false},
-        ]);
+        audios = await getRepository(Audio).createQueryBuilder()
+            .take(QueryData.take)
+            .skip(QueryData.skip)
+            .orderBy('id', "DESC")
+            .getMany();
+
+        res.status(200).send({audios: audios});
     }
 
 
@@ -97,9 +101,9 @@ export default class AudioController{
 
     /**
      * потащить одну запись с аудио + потащить все ошибки к ней (сразу с типом ошибки, для этого использовать innerJoin)
-     * ! Илья
+     * ! Добавить сюда вывод worker которые привязаны к audio + посчитать количество ошибок из бд
      */
-    public static audioOne(req: Request, res: Response){
+    public static async audioOne(req: Request, res: Response){
 
         interface QueryData{
             id: number;
@@ -107,20 +111,22 @@ export default class AudioController{
 
         let
             dataErrors: Array<keyof QueryData> = [],
-            audios    : Array<Record<string, unknown>> = [],
+            audio     : Audio | undefined,
             QueryData : QueryData              = req.body;
 
         dataErrors = Query.checkData(QueryData, ['id']);
 
         if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
 
-        res.status(200).send({id: 1, fileAudio: 'default.wav', text: 'Я сказал, тебе, что ты лучшая', isChecked: true, isIllegal: false});
+        audio = await getRepository(Audio).findOne(QueryData.id);
+
+        res.status(200).send({audio: audio});
     }
 
 
     /**
      * Api который должен принять айдишники работников и id аудио, удалить старые привязки работников и создать новые привязки работников
-     * ! Андрей
+     * ! Илья
      */
     public static editWorkers(req: Request, res: Response){
         
@@ -159,8 +165,7 @@ export default class AudioController{
     }
 
     /**
-     * Api
-     * ! Андрей
+     * Api 
      */
     public static async removeAudio(req: Request, res: Response){
 
@@ -170,7 +175,6 @@ export default class AudioController{
 
         let
             dataErrors: Array<keyof QueryData> = [],
-            audios    : Array<Record<string, unknown>> = [],
             QueryData : QueryData              = req.body;
 
         dataErrors = Query.checkData(QueryData, ['id']);
@@ -179,7 +183,7 @@ export default class AudioController{
 
         await getRepository(Audio).delete(QueryData.id);
 
-        res.send({msg: 'Запись с id удалена'});
+        res.send({msg: `Запись с ${QueryData.id} удалена`});
     }
 
 

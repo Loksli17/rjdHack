@@ -1,5 +1,5 @@
 <template>
-    <div class="page-wrap">
+    <div class="page-wrap index">
 
         <div class="row row-hello">
             <div class="col-1">
@@ -113,8 +113,15 @@
                 let res: AxiosResponse = await AudioService.removeOne(id);
 
                 const pagination = this.$refs.pagination! as any;
-                pagination.setAmountElements(this.amountRecords--);
+                this.amountRecords = this.amountRecords - 1;
+                pagination.setAmountElements(this.amountRecords);
                 this.records = await AudioService.getAllIllegal(pagination.take, pagination.skip);
+
+                this.$flashMessage.show({
+                    type : "success",
+                    title: "Удаление файла",
+                    text : res.data.msg,
+                })
                 
             },
 
@@ -129,52 +136,58 @@
 <style lang="scss">
     @import '../assets/scss/utils.scss';
 
-    .row:first-child{
-        padding: 0px 50px;
-    }
 
-    .row:nth-child(2){
-        display: grid;
-        grid-template-columns: auto max-content;
+    .index{
 
-        h1{
-            text-align: left;
+        .row:first-child{
+            padding: 0px 50px;
         }
 
-        button{
-            @include button;
-            width: 180px;
-            font-size: 23px;
-        }
-    }
+        .row:nth-child(2){
+            display: grid;
+            grid-template-columns: auto max-content;
 
-    .row-hello{
-        margin: 0px 50px;
-        height: 180px;
-        background: $color;
-        display: grid;
-        grid-auto-flow: column;
-        grid-template-columns: 1fr 1fr;
-
-        .col-1{
-            display: flex;
-            flex-flow: column;
-            justify-content: center;
-            align-items: flex-start;
-
-            span{
-                text-align: left;
-                font-size: 20px;
-            }
-
-            h2{
-                margin-top: 10px;
+            h1{
                 text-align: left;
             }
+
+            button{
+                @include button;
+                width: 180px;
+                font-size: 23px;
+            }
         }
+
+        .row-hello{
+            margin: 0px 50px;
+            height: 180px;
+            background: $color;
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-columns: 1fr 1fr;
+
+            .col-1{
+                display: flex;
+                flex-flow: column;
+                justify-content: center;
+                align-items: flex-start;
+
+                span{
+                    text-align: left;
+                    font-size: 20px;
+                }
+
+                h2{
+                    margin-top: 10px;
+                    text-align: left;
+                }
+            }
+        }
+
+        .row:not(.row:first-child){
+            @include page-row;
+        }
+
     }
 
-    .row:not(.row:first-child){
-        @include page-row;
-    }
 </style>

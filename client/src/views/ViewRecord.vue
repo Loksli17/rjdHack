@@ -1,18 +1,219 @@
 <template>
-    <div>
-        This is record with id: {{ recordID }}
+    <div class="page-wrap view">
+        
+        <div class="row">
+            <router-link to="/"> Обратно к списку аудио-файлов </router-link>
+        </div>
+
+        <div class="row">
+           <h1> Файл: {{record.fileAudio}}</h1>
+           <button @click="showPopup = true">Редактировать</button>
+        </div>
+
+        <div class="row">
+
+            <div class="col-1">
+
+                <div>
+                    <h1>Навигация</h1>
+                </div>
+
+                <div class="tabs">
+                    <div @click="setContent('text')">
+                        Текст переговоров
+                    </div>
+
+                    <div @click="setContent('errors')">
+                        Зафиксированные ошибки
+                    </div>
+
+                    <div @click="setContent('info')">
+                        Информация о файле
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-2">
+
+                <div class="content">
+
+                    <div class="text" :class="{'tab-active': textStatus}">
+                        {{record.text}}
+                    </div>
+
+                    <div :class="{'tab-active': errorStatus}">
+                        Ошибки
+                    </div>
+
+                    <div :class="{'tab-active': infoStatus}">
+
+                        <div>
+                            <h4>Название</h4>
+                            <div>{{record.date}}</div>
+                        </div>
+
+                        <div>
+                            <h4>Дата создания:</h4>
+                            <div>{{record.date}}</div>
+                        </div>
+
+                        <div>
+                            <h4>Нарушение</h4>
+                            <div>{{record.isIllegalContent}}</div>
+                        </div>
+
+                        <div>
+                            <h4>Обработано</h4>
+                            <div>{{record.date}}</div>
+                        </div>
+
+                        <div>
+                            <h4>Работники переговоров</h4>
+                            <!-- Добавить нормальый вывод работников -->
+                            <div>{{record.workers}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </template>
 
+
 <script lang="ts">
     import { defineComponent } from 'vue';
+    import AudioService        from '../services/AudioService';
+
     
     export default defineComponent({
         name: "view-record",
+
+        data: function(){
+            return {
+                record     : {} as Record<string, any>,
+                textStatus : false as Boolean,
+                errorStatus: true as Boolean,
+                infoStatus : false as Boolean,
+            }
+        },
+        
         computed: {
-            recordID(): string {
-                return this.$route.params.id as string;
+            recordID(): number {
+                return Number(this.$route.params.id) as number;
+            }
+        },
+
+        mounted: async function(){
+            this.record = await AudioService.getOne(this.recordID);
+        },
+
+        methods: {
+            setContent: function(param: string){
+
+                switch(param){
+                    case "text": 
+                        this.infoStatus  = false;
+                        this.errorStatus = false;
+                        this.textStatus  = true;
+                        break;
+                    case "info":
+                        this.infoStatus  = true;
+                        this.errorStatus = false;
+                        this.textStatus  = false;
+                        break;
+                    case "errors": 
+                        this.infoStatus  = false;
+                        this.errorStatus = true;
+                        this.textStatus  = false;
+                        break;
+                }
+            }
+        },
+    });
+</script>
+
+
+<style lang="scss">
+    @import '../assets/scss/utils.scss';
+
+
+    .view{
+        .row:first-child{
+            padding: 0px 50px;
+            @include grid-left;
+        }
+
+        .row:nth-child(2){
+            @include grid-left;
+            column-gap: 30px;
+            grid-template-columns: max-content max-content;
+
+            button{
+                @include button;
             }
         }
-    })
-</script>
+
+        .row:not(.row:first-child){
+            @include page-row;
+        }
+
+        .row:nth-child(3){
+            display: grid;
+            grid-template-columns: max-content auto;
+            column-gap: 30px;
+            height: 650px;
+
+            .col-1{
+                padding: 40px;
+                background: $color;
+
+                h1{
+                    text-align: left;
+                }
+
+                .tabs{
+                
+                    margin-top: 30px;
+                    display: grid;
+                    row-gap: 20px;
+
+                    div{
+                        padding: 20px;
+                        background: rgb(179, 177, 177);
+                        cursor: pointer;
+
+                        &:hover{
+                            transition: 0.4s;
+                            background: rgb(158, 151, 151);
+                        }
+                    }
+                }
+            }
+
+            .col-2{
+
+                .content{
+
+                    .text{
+                        text-align: left;
+                        font-size: 20px;
+                        max-height: 650px;
+                        overflow-y: auto;
+                    }
+                    
+                    > div{
+                        display: none;
+                    }
+
+                     .tab-active{
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+    
+
+</style>

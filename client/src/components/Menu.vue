@@ -6,6 +6,10 @@
             <router-link to="/view-all"> Все файлы </router-link>
         </div>
 
+        <div class="btn-wrap">
+            <router-link class="add-files-btn" to="/record/add"> Добавить файлы </router-link>
+        </div>
+
         <div class="user">
             <span>Холодилов А.</span>
             <router-link to="/logout">Выход</router-link>
@@ -13,10 +17,12 @@
     </div>
 </template>
 
+
 <style lang="scss">
     @import '../assets/scss/utils.scss';
 
     .menu{
+        display: block;
         position: fixed;
         top: 0px;
         left: 0px;
@@ -25,7 +31,7 @@
         display: grid;
         background: $color;
         grid-auto-flow: column;
-        grid-template-columns: auto max-content;
+        grid-template-columns: auto max-content max-content;
         column-gap: 20px;
         box-sizing:  border-box;
         padding: 10px 50px;
@@ -46,6 +52,18 @@
             justify-items: flex-start;
             align-items: center;
         }
+
+        .btn-wrap{
+            display: grid;
+            align-items: center;
+
+            .add-files-btn{
+                @include button;
+                @include link;
+                font-size: 18px;
+            }
+        }
+        
     }
     
 </style>
