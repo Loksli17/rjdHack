@@ -2,9 +2,8 @@ import express, {Request, Response, NextFunction} from 'express';
 import os                                         from 'os';
 import cluster, { Worker }                        from 'cluster';
 
-// azaza
-const app: express.Application = express();
 
+const app: express.Application = express();
 
 app.use((req, res, next) => {
     if(cluster.isWorker) console.log(`worker ${cluster.worker!['id']} handle request`);
