@@ -2,7 +2,7 @@ import {getConnectionManager} from 'typeorm';
 import config                 from '../config';
 import User                   from '../models/User';
 
-
+//fuck
 const
     connectionManager = getConnectionManager(),
     
