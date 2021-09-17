@@ -23,12 +23,12 @@
         height: $menuHeigth;
         width: 100%;
         display: grid;
-        background: rgb(241, 235, 235);
+        background: $color;
         grid-auto-flow: column;
         grid-template-columns: auto max-content;
         column-gap: 20px;
         box-sizing:  border-box;
-        padding: 10px 30px;
+        padding: 10px 50px;
 
         .user{
             display: grid;

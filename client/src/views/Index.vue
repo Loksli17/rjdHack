@@ -4,11 +4,11 @@
         <div class="row row-hello">
             <div class="col-1">
                 <span>
-                    Добро пожаловать Алексей Холодилов
+                    Добро пожаловать, Алекcандр Холодилов
                 </span>
-                <h3>
+                <h2>
                     Необработанных файлов: {{amountRecords}}
-                </h3>
+                </h2>
             </div>
 
             <div class="col">
@@ -16,8 +16,9 @@
             </div>
         </div>
 
-        <div class="row">
-            <button @click="showPopup = true">фильтры</button>
+        <div class="row ">
+            <h1>Все переговоры</h1>
+            <button @click="showPopup = true">Фильтры</button>
         </div>
 
         <div class="row">
@@ -78,7 +79,8 @@
                 columnNames: [
                     { fieldName: "id",        displayedName: "ID" },
                     { fieldName: "fileAudio", displayedName: "Имя файла" },
-                    { fieldName: "isChecked", displayedName: "Файл обработан" },
+                    { fieldName: "isChecked", displayedName: "Статус обработки" },
+                    { fieldName: "date",      displayedName: "Дата загрузки" },
                     { displayedName: 'Действия' },
                 ] as Array<Column>,
 
@@ -90,7 +92,7 @@
                 showPopup: false as boolean,
 
                 skip   : 0 as number,
-                take   : 12 as number,
+                take   : 9 as number,
                 records: [] as Array<Record<string, any>>,
 
                 currentPage  : 1 as number,
@@ -131,10 +133,45 @@
         padding: 0px 50px;
     }
 
+    .row:nth-child(2){
+        display: grid;
+        grid-template-columns: auto max-content;
+
+        h1{
+            text-align: left;
+        }
+
+        button{
+            @include button;
+            width: 180px;
+            font-size: 23px;
+        }
+    }
+
     .row-hello{
+        margin: 0px 50px;
+        height: 180px;
+        background: $color;
         display: grid;
         grid-auto-flow: column;
         grid-template-columns: 1fr 1fr;
+
+        .col-1{
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            align-items: flex-start;
+
+            span{
+                text-align: left;
+                font-size: 20px;
+            }
+
+            h2{
+                margin-top: 10px;
+                text-align: left;
+            }
+        }
     }
 
     .row:not(.row:first-child){

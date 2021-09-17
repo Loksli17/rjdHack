@@ -1,4 +1,6 @@
 $menuHeigth: 60px;
+$color: rgb(219, 219, 218);
+$addColor: rgb(99, 230, 175);
 
 
 *{
@@ -7,12 +9,12 @@ $menuHeigth: 60px;
 }
 
 .page-wrap{
-    margin-top: $menuHeigth + 20px;
+    margin-top: $menuHeigth + 30px;
 }
 
 @mixin page-row{
     padding: 0px 50px;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 @mixin grid-left{
@@ -28,4 +30,18 @@ $menuHeigth: 60px;
 @mixin grid-left{
     display: grid;
     justify-content: flex-end;
+}
+
+@mixin button{ 
+    padding: 10px 15px;
+    background: $addColor;
+    border: 0px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+
+    &:hover{
+        transition: 0.4s;
+        background: rgb(48, 197, 135);
+    }
 }

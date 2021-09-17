@@ -148,7 +148,7 @@
     }
 
     table{
-        width: 1200px;
+        width: 100%;
         margin: 20px 0px;
         border-collapse: collapse;
 
