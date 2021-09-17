@@ -12,7 +12,7 @@ export default {
     },
     app: {
         port: 3000,
-        name: 'onlineCorel',
+        name: 'rjdHack',
         pagination: {
             pageSize: 5,
             limit   : 6,

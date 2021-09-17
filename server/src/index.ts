@@ -64,7 +64,6 @@ export class App{
         this.app.use(express.urlencoded({extended: true, limit: '30mb'}));
         this.app.use(fileUpload());
     }
-    
 }
 
 const app = App.Instance;
