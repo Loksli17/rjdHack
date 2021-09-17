@@ -1,6 +1,21 @@
 <template>
     <div class="page-wrap">
 
+        <div class="row row-hello">
+            <div class="col-1">
+                <span>
+                    Добро пожаловать Алексей Холодилов
+                </span>
+                <h3>
+                    Необработанных файлов: {{amountRecords}}
+                </h3>
+            </div>
+
+            <div class="col">
+
+            </div>
+        </div>
+
         <div class="row">
             <button @click="showPopup = true">фильтры</button>
         </div>
@@ -50,6 +65,7 @@
     import AudioService        from "../services/AudioService";
     import PopupWrapper        from "@/components/popup/PopupWrapper.vue";
     import Pagination          from '../components/Pagination.vue';
+    import { AxiosResponse }   from 'axios';
 
 
     export default defineComponent({
@@ -88,7 +104,7 @@
         },
 
         mounted: async function(){
-            this.records       = await AudioService.getAll(this.take, this.skip);
+            this.records       = await AudioService.getAllIllegal(this.take, this.skip);
             this.amountRecords = await AudioService.illegalCount();
 
             const pagination = this.$refs.pagination! as any;
@@ -97,12 +113,16 @@
 
         methods: {
             async removeRecord(id: number): Promise<void> {
-                console.log(id);
+                let res: AxiosResponse = await AudioService.removeOne(id);
+
+                const pagination = this.$refs.pagination! as any;
+                pagination.setAmountElements(this.amountRecords--);
+                this.records = await AudioService.getAllIllegal(pagination.take, pagination.skip);
+                
             },
 
             pageChangeEvt: async function(data: {take: number; skip: number}){
-
-                this.records = await AudioService.getAll(data.take, data.skip);
+                this.records = await AudioService.getAllIllegal(data.take, data.skip);
             },
         }
     })
@@ -114,6 +134,12 @@
 
     .row:first-child{
         padding: 0px 50px;
+    }
+
+    .row-hello{
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: 1fr 1fr;
     }
 
     .row:not(.row:first-child){

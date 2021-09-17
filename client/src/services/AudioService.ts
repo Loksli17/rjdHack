@@ -4,7 +4,7 @@ import axios, { AxiosResponse } from "axios";
 export default class AudioService{
 
 
-    public static async getAll(take: number, skip: number){
+    public static async getAllIllegal(take: number, skip: number){
        
         const res: AxiosResponse = await axios.post('audio/all-illegal', {take: take, skip: skip});
         
@@ -18,7 +18,8 @@ export default class AudioService{
 
 
     public static async removeOne(id: number){
-        const res: AxiosResponse = await axios.post('audio/remove', {})
+        const res: AxiosResponse = await axios.post('audio/remove', {id: id});
+        return res;
     }
 
     public static async illegalCount(){
@@ -26,5 +27,4 @@ export default class AudioService{
         return res.data.countValue;
     }
     
-
 }
