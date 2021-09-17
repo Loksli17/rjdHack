@@ -11,8 +11,8 @@ export default class Router{
     public static get routes(){
         this.router.use(AuthController.checkAccessToken);
         this.router.use('/auth',   AuthController.routes());
-        this.router.use('/audio',  AuthController.routes());
-        this.router.use('/worker', AuthController.routes());
+        this.router.use('/audio',  AudioController.routes());
+        this.router.use('/worker', WorkerController.routes());
 
         return this.router;
     }

@@ -166,7 +166,7 @@ export default class AudioController{
 
 
     public static routes(): Router{
-        this.router.all('/all-illegal'    , this.audiosAllIllegal);
+        this.router.post('/all-illegal'    , this.audiosAllIllegal);
         this.router.all('/all'            , this.audiosAll);
         this.router.all('/one'            , this.audioOne);
         this.router.all('/illegal-count'  , this.audiosIllegalCount);

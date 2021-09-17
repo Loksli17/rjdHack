@@ -1,8 +1,9 @@
 import {getConnectionManager} from 'typeorm';
 import config                 from '../config';
-import User                   from '../models/User';
+import Audio                  from '../models/Audio';
+import Worker                 from '../models/Worker';
 
-//fuck
+
 const
     connectionManager = getConnectionManager(),
     
@@ -15,7 +16,8 @@ const
         password: config.db.password,
         database: config.db.name,
         entities: [
-            User
+            Audio,
+            Worker,
         ],
     }),
 
