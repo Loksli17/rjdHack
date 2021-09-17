@@ -28,7 +28,7 @@
                 </ul>
             </div>
         </div>
-        <button>Применить или чо там</button>
+        <button @click="resultSubmit">Применить или чо там</button>
     </div>
 </template>
 
@@ -72,6 +72,13 @@
                 if (worker) {
                     this.selectedWorkersList.add(worker);
                 }
+            },
+            resultSubmit(): void {
+                this.$flashMessage.show({
+                    type: "success",
+                    title: "Здраствуйте",
+                    text: "Я, Кирилл. Хотел бы чтобы вы сделали игру, 3Д-экшон суть такова... И если пользователь играет эльфами то эльфы в лесу, домики деревяные набигают солдаты дворца и злодеи. Можно грабить корованы..."
+                })
             }
         }
     })

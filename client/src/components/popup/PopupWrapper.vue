@@ -15,8 +15,12 @@
     export default defineComponent({
         name: "popup-window",
         emits: ["popup-background-clicked"],
+        mounted() {
+            document.body.style.overflow = "hidden";
+        },
         methods: {
             clickedOnBackground() {
+                document.body.style.overflow = "initial";
                 this.$emit("popup-background-clicked");
             }
         }

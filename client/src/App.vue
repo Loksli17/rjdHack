@@ -2,6 +2,7 @@
     <div>
         <Menu></Menu>
         <router-view/>
+        <FlashMessage />
     </div>
 </template>
 
@@ -14,6 +15,10 @@
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
+    }
+
+    ._vue-flash-msg-body {
+        z-index: 10000;
     }
 
     #nav {
