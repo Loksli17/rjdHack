@@ -37,6 +37,7 @@
         .popup-body {
             position: fixed;
             align-self: center;
+            width: 80%;
         }
 
         .popup-background {
