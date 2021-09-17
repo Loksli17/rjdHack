@@ -11,6 +11,7 @@
   "author": "#freeFestu",
   "license": "ISC",
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/crypto-js": "^4.0.2",
     "@types/express": "^4.17.13",
@@ -24,6 +25,7 @@
   "dependencies": {
     "@join-com/typeorm-class-validator-is-uniq": "^2.0.0",
     "@types/cors": "^2.8.12",
+    "axios": "^0.21.4",
     "class-validator": "^0.13.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
