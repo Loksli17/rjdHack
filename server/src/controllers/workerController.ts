@@ -11,23 +11,21 @@ import { getRepository }             from "typeorm";
 
 export default class WorkerController{
 
+    
     private static router: Router = Router();
 
-    public static audiosAllIllegal(req: Request, res: Response){
+
+    /**
+     * api для поиска работников
+     */
+    public static search(req: Request, res: Response){
 
         res.status(200).send();
     }
 
-    public static audiosAll(req: Request, res: Response){
-
-    }
-
-    public static audioOne(req: Request, res: Response){
-
-    }
 
     public static routes(): Router{
-        this.router.post('/login', this.audiosAllIllegal);
+        this.router.all('/search', this.search);
         
         return this.router;
     }
