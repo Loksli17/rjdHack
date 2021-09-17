@@ -5,8 +5,8 @@ import { createReadStream } from "fs";
 // const read = promisify(readFile);
 
 const 
-    FOLDER_ID = "b1ge3knh2f9272svo88i",
-    IAM_TOKEN = "hahahahah";
+    FOLDER_ID = "b1g3r4lgbvftcmlle452",
+    IAM_TOKEN = "b1gtl3g1nnh8e5mjgfoq";
 
 const data = createReadStream("./audio/1.wav");
 
@@ -31,4 +31,6 @@ axios.post(
 ).then((res: AxiosResponse<any>) => {
     const resData = res.data;
     console.log(resData);
+}).catch(err => {
+    console.error(err);
 });
