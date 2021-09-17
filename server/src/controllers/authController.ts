@@ -117,7 +117,7 @@ export default class AuthController{
 
         users = await getRepository(User).createQueryBuilder().limit().getMany();
 
-        res.status(200).send({users: users});
+        res.status(200).json({users: users});
     }
 
 
