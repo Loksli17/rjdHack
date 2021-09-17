@@ -1,16 +1,17 @@
 <template>
-    <div>
-        <fieldset>
-            <legend>кнопки</legend>
-            <button @click="showPopup = true">фильтры</button>
-            <router-link to="/view-all"></router-link>
-        </fieldset>
+    <div class="page-wrap">
 
-        <Table 
-            :actions="tableActions"
-            :columnNames="columnNames" 
-            :rowData="records"
-        />
+        <div class="row">
+            <button @click="showPopup = true">фильтры</button>
+        </div>
+
+        <div class="row">
+            <Table 
+                :actions="tableActions"
+                :columnNames="columnNames" 
+                :rowData="records"
+            />
+        </div>   
 
         <teleport to="body">
             <PopupWrapper v-if="showPopup" @popup-background-clicked="showPopup = false">
@@ -29,12 +30,14 @@
     </div>
 </template>
 
+
 <script lang="ts">
     import { defineComponent } from 'vue';
     import Table               from "@/components/table/Table.vue";
     import { Action, Column }  from "@/components/table/types";
     import AudioService        from "../services/AudioService";
     import PopupWrapper        from "@/components/popup/PopupWrapper.vue";
+    import Pagination          from '../components/Pagination.vue';
 
 
     export default defineComponent({
@@ -49,10 +52,10 @@
         data() {
             return {
                 columnNames: [
-                    { fieldName: "id",      displayedName: "ID" },
-                    { fieldName: "field_1", displayedName: "hah" },
-                    { fieldName: "field_2", displayedName: "huh" },
-                    { fieldName: "actions", displayedName: "Действия" }
+                    { fieldName: "id",        displayedName: "ID" },
+                    { fieldName: "fileAudio", displayedName: "Имя файла" },
+                    { fieldName: "isChecked", displayedName: "Файл обработан" },
+                    { displayedName: 'Действия' },
                 ] as Array<Column>,
 
                 tableActions: [
@@ -63,14 +66,13 @@
                 showPopup: false as boolean,
 
                 skip   : 0 as number,
-                take   : 8 as number,
+                take   : 12 as number,
                 records: [] as Array<Record<string, any>>,
             }
         },
 
         mounted: async function(){
             this.records = await AudioService.getAll(this.take, this.skip);
-            console.log(this.records);
         },
 
         methods: {
@@ -80,3 +82,16 @@
         }
     })
 </script>
+
+
+<style lang="scss">
+    @import '../assets/scss/utils.scss';
+
+    .row:first-child{
+        padding: 0px 50px;
+    }
+
+    .row:not(.row:first-child){
+        @include page-row;
+    }
+</style>

@@ -31,11 +31,9 @@ export default class AudioController{
         audios = await getRepository(Audio).createQueryBuilder()
             .take(QueryData.take)
             .skip(QueryData.skip)
-            .where('isChecked = false')
-            .andWhere('isIllegal = false')
+            .where('isChecked = false && isIllegal = true')
+            .orderBy('id', "DESC")
             .getMany();
-
-        console.log(audios);
 
         res.status(200).send({audios: audios});
     }
@@ -164,6 +162,7 @@ export default class AudioController{
      */
     public static deleteAudio(req: Request, res: Response){
 
+        res.send({msg: 'Запись с id удалена'});
     }
 
 

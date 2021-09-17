@@ -1,6 +1,11 @@
 <template>
-    <router-view/>
+    <div>
+        <Menu></Menu>
+        <router-view/>
+    </div>
 </template>
+
+
 
 <style lang="scss">
     #app {
