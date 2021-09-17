@@ -4,27 +4,42 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/auth',
         name: "Auth",
-        component: () => import(/* webpackChunkName: "auth" */ '../views/Auth.vue')
+        component: () => import(/* webpackChunkName: "auth" */ '../views/Auth.vue'),
+        meta: {
+            title: "Авторизация"
+        }
     },
     {
         path: '/',
         name: 'Index',
-        component: () => import(/* webpackChunkName: "index" */ '../views/Index.vue')
+        component: () => import(/* webpackChunkName: "index" */ '../views/Index.vue'),
+        meta: {
+            title: "Главная страница"
+        }
     },
     {
         path: '/view-all',
         name: "All records",
-        component: () => import(/* webpackChunkName: "viewall" */ '../views/ViewAll.vue')
+        component: () => import(/* webpackChunkName: "viewall" */ '../views/ViewAll.vue'),
+        meta: {
+            title: "Просмотр всех записей"
+        }
     },
     {
         path: '/record/:id/view',
         name: "View record",
-        component: () => import(/* webpackChunkName: "viewrecord" */ '../views/ViewRecord.vue')
+        component: () => import(/* webpackChunkName: "viewrecord" */ '../views/ViewRecord.vue'),
+        meta: {
+            title: "Просмотр записи"
+        }
     },
     {
         path: '/record/add',
         name: "Add record",
-        component: () => import(/* webpackChunkName: "addrecord" */ '../views/AddRecord.vue')
+        component: () => import(/* webpackChunkName: "addrecord" */ '../views/AddRecord.vue'),
+        meta: {
+            title: "Добавление записи"
+        }
     }
 ]
 

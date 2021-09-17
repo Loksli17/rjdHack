@@ -10,7 +10,8 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent } from 'vue'
+    import { defineComponent } from 'vue';
+    
     export default defineComponent({
         name: "popup-window",
         emits: ["popup-background-clicked"],
@@ -19,7 +20,7 @@
                 this.$emit("popup-background-clicked");
             }
         }
-    })
+    });
 </script>
 
 <style lang="scss" scoped>
