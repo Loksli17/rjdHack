@@ -1,8 +1,10 @@
 import {Entity, Column, PrimaryGeneratedColumn, ManyToMany, OneToMany, JoinTable} from 'typeorm';
 
-import {IsEmail, MinLength, IsNotEmpty, MaxLength} from 'class-validator';
+import Worker                                              from './Worker';
+import {IsEmail, MinLength, IsNotEmpty, MaxLength, isPort} from 'class-validator';
 import {IsUniq}                                    from '@join-com/typeorm-class-validator-is-uniq';
 
+import Violation from './Violation';
 
 @Entity()
 export default class Audio{
@@ -30,4 +32,12 @@ export default class Audio{
 
     @Column()
     public date: string = '';
+    
+    public violationCount: number  = 0 ; 
+
+    @ManyToMany(() => Worker, worker => worker.audios)
+    public workers?: Array<Worker> | undefined;
+
+    @OneToMany(() => Audio, audio => audio.violation)
+    public violation?: Array<Violation> | undefined;
 }

@@ -1,7 +1,9 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToMany, OneToMany, JoinTable} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, ManyToMany, OneToMany,ManyToOne, JoinTable} from 'typeorm';
 
+import Audio                                       from './Audio';
 import {IsEmail, MinLength, IsNotEmpty, MaxLength} from 'class-validator';
 import {IsUniq}                                    from '@join-com/typeorm-class-validator-is-uniq';
+import Violation                                   from './Violation';
 
 
 @Entity()
@@ -37,4 +39,18 @@ export default class Worker{
     @IsNotEmpty()
     public phone: string = '89241098357';
 
+   
+    @ManyToMany(() => Audio, audio => audio.workers)
+    @JoinTable({
+        name              : "workerHasAudio",
+        joinColumns       : [{name: 'workerId'}],
+        inverseJoinColumns: [{name: 'audioId'}],
+    })
+    public audios?: Array<Audio> | undefined;
+
+    
+    @OneToMany(() => Worker, worker => worker.violation)
+    public violation?: Array<Violation> | undefined;
+
 }
+    

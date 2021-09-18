@@ -1,7 +1,9 @@
 import {getConnectionManager} from 'typeorm';
 import config                 from '../config';
 import Audio                  from '../models/Audio';
+import Violation from '../models/Violation';
 import Worker                 from '../models/Worker';
+import TypeError from '../models/TypeError';
 
 
 const
@@ -18,6 +20,8 @@ const
         entities: [
             Audio,
             Worker,
+            TypeError,
+            Violation,
         ],
     }),
 
