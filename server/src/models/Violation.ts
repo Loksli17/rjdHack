@@ -37,12 +37,12 @@ export default class Violation{
     public typeErrorId?: number;   
 
     @ManyToOne(() => Worker, worker => worker.violation)
-    public workers?: Worker | number;
+    public worker?: Worker | number;
 
     @ManyToOne(() => Audio, audio => audio.violation)
-    public audios?: Audio | number;
+    public audio?: Audio | number;
 
     @ManyToOne(() => TypeError, typeError => typeError.violation)
-    public typeErrors?: TypeError | number;
+    public typeError?: TypeError | number;
 }
     

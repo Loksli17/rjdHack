@@ -177,14 +177,20 @@ export default class AudioController{
         if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
 
         audio = await getRepository(Audio).findOne(QueryData.id);
-
         
-        // if (audio != undefined && audio != null){
-        //     audio.violation = await getRepository(Violation).createQueryBuilder('violation')
-        //     //.innerJoin('audio' , 'audio', 'violation.audioId = audio.id')
-        //     //.where('audio.id = :id' , {id: audio.id} )
-        //     .getMany();
-        // }      
+        if (audio != undefined && audio != null){
+            audio.violation = await getRepository(Violation).createQueryBuilder('violation')
+            .innerJoin('audio' , 'audio', 'violation.audioId = audio.id')
+            .where('audio.id = :id' , {id: audio.id} )
+            .getMany();            
+
+            if (audio.violation != undefined && audio.violation != null)
+            for (let i = 0 ; i < audio.violation.length; i++){
+                audio.violation[i].worker = await getRepository(Worker).createQueryBuilder()
+                    .where('worker.id = :id',{id: audio.violation[i].workerId})
+                    .getOne();
+            }
+        }             
 
         console.log(audio);
 
