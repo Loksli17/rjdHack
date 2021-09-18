@@ -17,6 +17,11 @@ declare module "@vue/runtime-core" {
 
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title as string ?? DEFAULT_TITLE;
+
+    if (to.path === "/logout") {
+        console.log("logout");
+    }
+
     next();
 });
 

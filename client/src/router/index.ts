@@ -40,7 +40,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
             title: "Добавление записи"
         }
-    }
+    },
+    {
+        path: "/:pathMatch(.*)*",
+        name: "404",
+        component: () => import(/* webpackChunkName: "404" */ '../views/404.vue'),
+        meta: {
+            title: "404"
+        }
+    },
 ]
 
 const router = createRouter({
