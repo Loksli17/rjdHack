@@ -52,7 +52,10 @@
                             <ul class="volation-list">
                                 <li v-for="violation in record.violation" :key="violation.id">
                                     <AudioTImeCode :time="violation.timeCode" @get-time="currentTimeStamp = $event" />
-                                    <span>{{ violation.word }}</span>
+                                    <div>
+                                        <span>{{ violation.word }}</span>
+                                    </div>
+                                    <span>{{ violation.typeError.name }}</span>
                                 </li>
                             </ul>
                         </div>
@@ -261,6 +264,7 @@
                     margin-top: 30px;
                     display: grid;
                     row-gap: 20px;
+                    font-size: 14pt;
 
                     div{
                         border-radius: 18px;
@@ -305,14 +309,25 @@
 
                             ul {
                                 list-style: none;
+                                overflow-y: auto;
+                                font-size: 14pt;
 
                                 li {
+                                    display: grid;
+                                    grid-template-columns: max-content auto 200px;
                                     text-align: left;
                                     padding: 15px;
 
-                                    span {
-                                        padding-left: 20px;
+                                    div {
+                                        display: flex;
+                                        width: 100%;
+                                        flex-flow: row;
+                                        justify-content: center;
                                     }
+
+                                    // span {
+                                    //     padding-left: 20px;
+                                    // }
                                 }
                             }
                         }
