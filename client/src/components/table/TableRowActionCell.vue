@@ -42,3 +42,10 @@
         }
     });
 </script>
+
+<style lang="scss" scoped>
+    img {
+        width: 20px;
+        height: 20px;
+    }
+</style>
