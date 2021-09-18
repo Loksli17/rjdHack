@@ -63,7 +63,7 @@ export default class AudioController{
                 .where('violation.audioId = :id' ,{id: audios[i].id})
                 .getCount();
         }
-        console.log(audios);
+      
         res.status(200).send({audios: audios});
     }
 
@@ -102,7 +102,8 @@ export default class AudioController{
             take: number;
         }
 
-        let
+        let 
+            workers   : Array<Worker>          = [],
             dataErrors: Array<keyof QueryData> = [],
             audios    : Array<Audio>           = [],
             QueryData : QueryData              = req.body;
@@ -110,12 +111,25 @@ export default class AudioController{
         dataErrors = Query.checkData(QueryData, ['skip', 'take']);
 
         if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
-
+    
         audios = await getRepository(Audio).createQueryBuilder()
             .take(QueryData.take)
             .skip(QueryData.skip)
             .orderBy('id', "DESC")
             .getMany();
+
+
+        for (let i = 0; i < audios.length; i++){        
+            audios[i].workers = await getRepository(Worker).createQueryBuilder('worker') 
+                .innerJoin('workerHasAudio', 'wha', 'worker.id = wha.workerId') 
+                .innerJoin('audio', 'audio', 'audio.id = wha.audioId')                   
+                .where('audio.id = :id' , {id: audios[i].id})
+                .getMany();
+                
+            audios[i].violationCount = await getRepository(Violation).createQueryBuilder('violation')
+                .where('violation.audioId = :id' ,{id: audios[i].id})
+                .getCount();
+        }
 
         res.status(200).send({audios: audios});
     }
@@ -128,6 +142,9 @@ export default class AudioController{
     public static async audiosAmountAll(req: Request, res: Response){
 
         let valueCount: number = 0;
+
+        valueCount = await getRepository(Audio).createQueryBuilder()
+            .getCount();
 
         res.status(200).send({amount: 40});
     }
@@ -152,7 +169,11 @@ export default class AudioController{
 
         if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
 
-        audio = await getRepository(Audio).findOne(QueryData.id);
+        audio = await getRepository(Audio)
+            .findOne(QueryData.id);
+
+        console.log(audio);    
+
 
         res.status(200).send({audio: audio});
     }
