@@ -83,7 +83,7 @@
                     { fieldName: "workers",        displayedName: "Участники диалога", columnHandler: (workers: any) => {
                         let str = "";
                         for (const worker of workers) {
-                            str += `${worker.lastName} ${worker.firstName},\n`
+                            str += `${worker.lastName} ${worker.firstName},`
                         }
                         
                         return str.slice(0, str.length - 2);
