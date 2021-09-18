@@ -23,15 +23,15 @@
                 </div>
 
                 <div class="tabs">
-                    <div @click="setContent('text')">
+                    <div :class="{ 'selected': textStatus }" @click="setContent('text')">
                         Текст переговоров
                     </div>
 
-                    <div @click="setContent('errors')">
+                    <div :class="{ 'selected': errorStatus }" @click="setContent('errors')">
                         Зафиксированные ошибки
                     </div>
 
-                    <div @click="setContent('info')">
+                    <div :class="{ 'selected': infoStatus }" @click="setContent('info')">
                         Информация о файле
                     </div>
                 </div>
@@ -198,9 +198,27 @@
             @include grid-left;
 
             a{
-                @include button;
+                // @include button;
+                padding: 20px 10px 20px 30px;
                 @include link;
+                color: #6C6C6C;
+
+                &::before {
+                    content: "";
+                    display: inline-block;
+                    // position: absolute;
+                    width: 30px;
+                    height: 30px;
+                    position: relative;
+                    top: 10px;
+                    background-image: url("./../assets/back-arrow.svg");
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    background-position: center;
+                    transform: rotate(180deg);
+                }
             }
+
         }
 
         .row:nth-child(2){
@@ -229,36 +247,45 @@
 
             .col-1{
                 padding: 40px;
-                background: $color;
+                width: 13vw;
+                background: #FFF;
+                @include drop-shadow;
+                border-radius: 18px;
 
                 h1{
                     text-align: left;
                 }
 
                 .tabs{
-                
                     margin-top: 30px;
                     display: grid;
                     row-gap: 20px;
 
                     div{
+                        border-radius: 18px;
                         padding: 20px;
-                        background: rgb(179, 177, 177);
+                        background: #EAEAEA;;
                         cursor: pointer;
 
                         &:hover{
                             transition: 0.4s;
-                            background: rgb(158, 151, 151);
+                            background: #f72e24;
                         }
+                    }
+
+                    .selected {
+                        background: #FF6961;;
                     }
                 }
             }
 
             .col-2{
                 padding: 40px;
-                background: $color;
+                background: #FFF;
                 max-height: 650px;
                 overflow-y: auto;
+                @include drop-shadow;
+                border-radius: 18px;
 
                 .content{
 

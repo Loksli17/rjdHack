@@ -58,3 +58,8 @@ $backgroundColor: #F7F2F2;
 @mixin link{
     text-decoration: none;
 }
+
+@mixin drop-shadow {
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.25);
+    border: none;
+}
