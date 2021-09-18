@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="tab" :class="{'tab-active': errorStatus}">
-                        Ошибки
+                        <h3>Ошибки</h3>
                         <div class="violation-lst-container">
                             <ul class="volation-list">
                                 <li v-for="violation in record.violation" :key="violation.id">

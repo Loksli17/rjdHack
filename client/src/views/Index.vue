@@ -77,10 +77,19 @@
         data() {
             return {
                 columnNames: [
-                    { fieldName: "id",        displayedName: "ID" },
-                    { fieldName: "fileAudio", displayedName: "Имя файла" },
-                    { fieldName: "isChecked", displayedName: "Статус обработки" },
-                    { fieldName: "date",      displayedName: "Дата загрузки" },
+                    { fieldName: "id",             displayedName: "ID" },
+                    { fieldName: "fileAudio",      displayedName: "Имя файла" },
+                    { fieldName: "isChecked",      displayedName: "Статус обработки" },
+                    { fieldName: "workers",        displayedName: "Участники диалога", columnHandler: (workers: any) => {
+                        let str = "";
+                        for (const worker of workers) {
+                            str += `${worker.lastName} ${worker.firstName},\n`
+                        }
+                        
+                        return str.slice(0, str.length - 2);
+                    } },
+                    { fieldName: "date",           displayedName: "Дата загрузки" },
+                    { fieldName: "violationCount", displayedName: "Число нарушений" },
                     { displayedName: 'Действия' },
                 ] as Array<Column>,
 
