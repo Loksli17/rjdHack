@@ -21,8 +21,8 @@
                     {{file.file.name}}
                 </div>
 
-                <div class="error" v-for="( in filesError">
-                    {{file.errors}}
+                <div class="errors" v-for="(error, index) in file.errors" :key="index">
+                    {{error.timeCode}}
                 </div>
             </div>
         </div>

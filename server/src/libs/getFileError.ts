@@ -36,7 +36,7 @@ export default async (words: string, audioId: number): Promise<Array<ErrorLexem>
     if(wordsArray[4] + '' + wordsArray[5] + '' + wordsArray[6] != sheme.gretting){
 
         const error: ErrorLexem = {
-            timeCode   : '04:0',
+            timeCode   : '04:00',
             word       : wordsArray[4] + " " + wordsArray[5] + " " + wordsArray[6],
             typeErrorId: typeErrors[1].id!,
         };
