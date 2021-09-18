@@ -3,7 +3,6 @@
 </template>
 
 <script lang="ts">
-    import moment from 'moment'
     import { defineComponent } from 'vue'
 
     export default defineComponent({
