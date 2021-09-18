@@ -1,7 +1,12 @@
 <template>
     <tr>
         <template v-for="(value, name) in row" :key="name">
-            <td v-if="!columnsToHide.includes(name)">{{ value }}</td>
+            <td 
+                v-if="!columnsToHide.includes(name)" 
+                style="white-space: pre-line"
+            >
+                {{ value }}
+            </td>
         </template>
         <TableRowActionCell v-if="actions" :actions="actions" :itemId="row.id" />
     </tr>
