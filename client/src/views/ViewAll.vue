@@ -51,17 +51,17 @@
         data() {
             return {
                 columnNames: [
-                    { fieldName: "id",        displayedName: "ID" },
-                    { fieldName: "fileAudio", displayedName: "Имя файла" },
-                    { fieldName: "isChecked", displayedName: "Статус обработки" },
-                    { fieldName: "date",      displayedName: "Дата загрузки" },
-                    { fieldName: "isIllegalContent",      displayedName: "Статус нарушения" },
+                    { fieldName: "id",               displayedName: "ID" },
+                    { fieldName: "fileAudio",        displayedName: "Имя файла" },
+                    { fieldName: "date",             displayedName: "Дата загрузки" },
+                    { fieldName: "isIllegalContent", displayedName: "Статус нарушения" },
+                    { fieldName: "isChecked",        displayedName: "Статус обработки" },
                     { displayedName: 'Действия' },
                 ] as Array<Column>,
 
                 tableActions: [
-                    { name: "Просмотр", path: (id: number) => `/record/${id}/view` },
-                    { name: "Удалить", handler: this.removeRecord }
+                    { path: (id: number) => `/record/${id}/view`, imgPath: require("./../assets/table-icons/view.svg") },
+                    { handler: this.removeRecord,                 imgPath: require("./../assets/table-icons/delete.svg") }
                 ] as Array<Action>,
                
                 showPopup: false as boolean,
@@ -122,6 +122,52 @@
 
         .row:not(.row:first-child){
             @include page-row;
+        }
+
+        table {
+            border: none;
+            border-collapse: separate;
+            border-spacing: 0;
+
+            td {
+                border: none;
+            }
+                
+            tr{
+                &:nth-child(odd){
+                    background: #F6F6F6;
+                }
+                &:nth-child(even){
+                    background: #E9E9E9;
+                }
+            }
+            tbody {
+                
+            }
+
+            .table-header {
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+                background-color: #9E9E9E;
+
+                th {
+                    background-color: #9E9E9E;
+                    color: #FFF;
+                    font-weight: 600;
+                    border: none;
+                }
+
+
+                .table-header-column-names:first-of-type {
+                    border-top-left-radius: 8px;
+                }
+
+                .table-header-column-names:last-of-type {
+                    border-top-right-radius: 8px;
+                }
+
+                
+            }
         }
     }
 

@@ -5,7 +5,7 @@
                 v-if="!columnsToHide.includes(name)" 
                 style="white-space: pre-line"
             >
-                {{ value }}
+                <span :class="[{'checked': value == 'обработан'},{'not-checked': value == 'Не обработан'}]">{{ value }}</span>
             </td>
         </template>
         <TableRowActionCell v-if="actions" :actions="actions" :itemId="row.id" />
@@ -36,3 +36,20 @@
         }
     })
 </script>
+
+<style lang="scss">
+
+    .not-checked {
+        padding: 0px 20px;
+        text-transform: uppercase;
+        border: 4px solid #FF6961;
+        color: #FF6961;
+    }
+
+    .checked {
+        padding: 0px 20px;
+        text-transform: uppercase;
+        border: 4px solid #3AD475;
+        color: #3AD475;
+    }
+</style>

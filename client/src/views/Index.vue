@@ -95,7 +95,7 @@
 
                 tableActions: [
                     { path: (id: number) => `/record/${id}/view`,  imgPath: require("./../assets/table-icons/view.svg") },
-                    { handler: this.removeRecord,  imgPath: require("./../assets/table-icons/delete.svg") }
+                    { handler: this.removeRecord,                  imgPath: require("./../assets/table-icons/delete.svg") }
                 ] as Array<Action>,
                
                 showPopup: false as boolean,

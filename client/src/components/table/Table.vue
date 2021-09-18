@@ -1,3 +1,5 @@
+// ! ADD THE ABILITY TO PASS CUSTOM CELLS FOR SPECIFIC COLUMNS
+
 <template>
     <table>
         <TableHeader 
