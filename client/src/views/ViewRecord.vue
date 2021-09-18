@@ -41,6 +41,7 @@
 
                     <div class="text tab" :class="{'tab-active': textStatus}">
                         {{record.text}}
+                        <AudioTImeCode :time="15" @get-time="currentTimeStamp = $event" />
                     </div>
 
                     <div class="tab" :class="{'tab-active': errorStatus}">
@@ -86,13 +87,15 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import AudioService        from '../services/AudioService';
-    import AudioPlayer         from "@/components/AudioPlayer.vue";
+    import AudioPlayer         from "@/components/AudioComponents/AudioPlayer.vue";
+    import AudioTImeCode       from "@/components/AudioComponents/AudioTimeCode.vue";
 
     
     export default defineComponent({
         name: "view-record",
         components: {
-            AudioPlayer
+            AudioPlayer,
+            AudioTImeCode
         },
         data: function(){
             return {
