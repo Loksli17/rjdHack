@@ -6,8 +6,9 @@
         </div>
 
         <div class="row">
-           <h1> Файл: {{record.fileAudio}}</h1>
-           <button @click="showPopup = true">Редактировать</button>
+            <h1> Файл: {{record.fileAudio}}</h1>
+            <button @click="showPopup = true">Редактировать</button>
+            <AudioPlayer v-if="record.fileAudio" :currentTime="currentTimeStamp" :src="`http://localhost:3000/audios/${record.fileAudio}`" />
         </div>
 
         <div class="row">
@@ -85,17 +86,21 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import AudioService        from '../services/AudioService';
+    import AudioPlayer         from "@/components/AudioPlayer.vue";
 
     
     export default defineComponent({
         name: "view-record",
-
+        components: {
+            AudioPlayer
+        },
         data: function(){
             return {
-                record     : {} as Record<string, any>,
-                textStatus : false as Boolean,
-                errorStatus: true as Boolean,
-                infoStatus : false as Boolean,
+                record          : {} as Record<string, any>,
+                textStatus      : false as Boolean,
+                errorStatus     : true as Boolean,
+                infoStatus      : false as Boolean,
+                currentTimeStamp: 0 as number
             }
         },
         
