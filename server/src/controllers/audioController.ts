@@ -67,13 +67,16 @@ export default class AudioController{
             workers: Array<Worker> = [],
             countValue: number = 0;
 
+        workers = await getRepository(Worker).createQueryBuilder('worker')
+            .innerJoin('workerHasAudio', 'wha', 'worker.id = wha.workerId') 
+            .innerJoin('audio', 'audio', 'audio.id = wha.audioId')            
+            .getMany();
+            
         countValue = await getRepository(Audio).createQueryBuilder()
             .innerJoin('workerHasAudio', 'wha', 'wha.audioId = audio.id') 
             .where('isChecked = false && isIllegal = true')
             .orderBy('id', "DESC")
             .getCount();
-
-
 
         res.status(200).send({countValue: countValue});
     }
