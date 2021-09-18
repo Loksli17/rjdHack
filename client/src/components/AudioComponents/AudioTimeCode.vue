@@ -1,5 +1,5 @@
 <template>
-    <a href="" @click.prevent="emitTIme">{{ timeInMinutes }}</a>
+    <a href="" @click.prevent="emitTIme">{{ time }}</a>
 </template>
 
 <script lang="ts">
@@ -16,19 +16,13 @@
             }
         },
         computed: {
-            timeInMinutes(): string {
-                // let time = "";
-                // if (this.time >= 60) {
-                //     time += this.time / 60;
-                // }
-
-                // return time;
-                return this.time;
+            timeInSeconds(): number {
+                return moment.duration(`00:${this.time}`).asSeconds();
             }
         },
         methods: {
             emitTIme(): void {
-                this.$emit("get-time", moment.duration(`00:${this.time}`).asSeconds());
+                this.$emit("get-time", this.timeInSeconds);
             }
         }
     })
