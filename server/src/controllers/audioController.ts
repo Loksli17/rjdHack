@@ -5,12 +5,14 @@ import Query              from "../libs/query";
 import { getRepository }  from "typeorm";
 import Audio              from "../models/Audio";
 
+
 import { FileArray, UploadedFile }      from "express-fileupload";
 //@ts-ignore
 import EasyYandex         from 'easy-yandex-s3';
 import axios, { AxiosResponse } from "axios";
 import { createReadStream } from "fs";
 import moment               from 'moment';
+
 
 
 
@@ -169,11 +171,17 @@ export default class AudioController{
 
         if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
 
-        audio = await getRepository(Audio)
-            .findOne(QueryData.id);
+        audio = await getRepository(Audio).findOne(QueryData.id);
 
-        console.log(audio);    
+        
+        // if (audio != undefined && audio != null){
+        //     audio.violation = await getRepository(Violation).createQueryBuilder('violation')
+        //     //.innerJoin('audio' , 'audio', 'violation.audioId = audio.id')
+        //     //.where('audio.id = :id' , {id: audio.id} )
+        //     .getMany();
+        // }      
 
+        console.log(audio);
 
         res.status(200).send({audio: audio});
     }
