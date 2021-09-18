@@ -43,6 +43,6 @@ export default class Violation{
     public audio?: Audio | number;
 
     @ManyToOne(() => TypeError, typeError => typeError.violation)
-    public typeError?: TypeError | number;
+    public typeError?: TypeError | string;
 }
     
