@@ -320,7 +320,12 @@
                         }
                     }
 
-                     .tab-active{
+                    .worker-list {
+                        list-style: none;
+                        text-align: left;
+                    }
+
+                    .tab-active{
                         display: block;
                     }
 
