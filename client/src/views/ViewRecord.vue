@@ -97,7 +97,9 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import AudioService        from '../services/AudioService';
-    import { jsPDF }           from "jspdf";
+    // import { jsPDF }           from "jspdf";
+    import pdfmake             from "pdfmake/build/pdfmake";
+    import pdfFonts            from "pdfmake/build/vfs_fonts.js";
     import AudioPlayer         from "@/components/AudioComponents/AudioPlayer.vue";
     import AudioTImeCode       from "@/components/AudioComponents/AudioTimeCode.vue";
     
@@ -148,42 +150,38 @@
                         break;
                 }
             },
-            //    generateReport(): void {
-            //     const doc = new PDFDocument();
-            //     const stream = doc.pipe(blobStream());
-            //     doc.setEncoding("utf-8");
-            //     // text +=
-            //     doc.text("Отчет", 20, 20, { align: 'center' });
-                
-            //     for (let i = 0; i < this.record.violation.length; i++) {
-            //         const v = this.record.violation[i];
-            //         doc.text(`${v.timeCode} ${v.word}`, 20, 40 + 20 * i, { align: 'left' });
-            //     }
-            //     stream.on("finish", () => {
-            //         // const blob = stream.toBlob("application/pdf");
-            //         const url = stream.toBlobURL("application/pdf");
-            //         const a = document.createElement("a") as HTMLAnchorElement;
-            //         a.setAttribute("download", "report.pdf");
-            //         a.href = url;
-            //         document.body.appendChild(a);
-            //         a.click();
-            //         setTimeout(() => { document.body.removeChild(a) }, 0);
-            //     });
-            //     // doc.save("report.pdf");
-            // }
             generateReport(): void {
-             
-                const doc = new jsPDF();
-                doc.setLanguage("ru");
-                // text +=
-                doc.text("Отчет", 20, 20, { align: 'center' });
-                
-                for (let i = 0; i < this.record.violation.length; i++) {
-                    const v = this.record.violation[i];
-                    doc.text(`${v.timeCode} ${v.word}`, 20, 40 + 20 * i, { align: 'left' });
+                pdfmake.vfs = pdfFonts.pdfMake.vfs;
+                const docDef = {
+                    content: [
+                        { text: "Ошибки", style: "header" },
+                        {
+                            ul: [] as Array<any>,
+                            style: "list"
+                        }
+                    ],
+                    styles: {
+                        header: {
+                            fontSize: 18,
+                            bold: true,
+                            alignment: "center" ,
+                            margin: [0, 20, 0, 40]
+                        },
+                        list: {
+                            margin: [20, 0, 20, 0],
+                        },
+                        superMargin: {
+                            margin: [20, 0, 40, 0],
+                            fontSize: 15
+                        }
+                    }
+                } as any;
+
+                for (const violation of this.record.violation) {
+                    docDef.content[1].ul?.push(`${violation.timeCode} ${violation.word}`);
                 }
 
-                doc.save("report.pdf");
+                pdfmake.createPdf(docDef).download("report.pdf");
             }
         },
     });
