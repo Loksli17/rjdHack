@@ -4,6 +4,7 @@ import ErrorMessage       from "../libs/errorMessage";
 import Query              from "../libs/query";
 import { getRepository }  from "typeorm";
 import Audio              from "../models/Audio";
+
 import { FileArray, UploadedFile }      from "express-fileupload";
 //@ts-ignore
 import EasyYandex         from 'easy-yandex-s3';
@@ -11,6 +12,11 @@ import axios, { AxiosResponse } from "axios";
 import { createReadStream } from "fs";
 import moment               from 'moment';
 
+
+
+import Violation from "../models/Violation";
+//import { Worker } from "cluster";
+import Worker from "../models/Worker";
 
 
 export default class AudioController{
@@ -38,13 +44,26 @@ export default class AudioController{
         if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
 
         //! don't forget about join for workes (FILTER)
-        audios = await getRepository(Audio).createQueryBuilder()
+        audios = await getRepository(Audio).createQueryBuilder('audio')
+            .innerJoin('workerHasAudio', 'wha', 'wha.audioId = audio.id')          
             .take(QueryData.take)
             .skip(QueryData.skip)
             .where('isChecked = false && isIllegal = true')
-            .orderBy('id', "DESC")
-            .getMany();
+            .orderBy('audio.id', "DESC")
+            .getMany();           
 
+         for (let i = 0; i < audios.length; i++){        
+            audios[i].workers = await getRepository(Worker).createQueryBuilder('worker') 
+                .innerJoin('workerHasAudio', 'wha', 'worker.id = wha.workerId') 
+                .innerJoin('audio', 'audio', 'audio.id = wha.audioId')                   
+                .where('audio.id = :id' , {id: audios[i].id})
+                .getMany();
+                
+            audios[i].violationCount = await getRepository(Violation).createQueryBuilder('violation')
+                .where('violation.audioId = :id' ,{id: audios[i].id})
+                .getCount();
+        }
+        console.log(audios);
         res.status(200).send({audios: audios});
     }
 
@@ -54,12 +73,17 @@ export default class AudioController{
      */
     public static async audiosAllIllegalCount(req: Request, res: Response){
 
-        let countValue: number = 0;
+        let 
+            workers: Array<Worker> = [],
+            countValue: number = 0;
 
         countValue = await getRepository(Audio).createQueryBuilder()
+            .innerJoin('workerHasAudio', 'wha', 'wha.audioId = audio.id') 
             .where('isChecked = false && isIllegal = true')
             .orderBy('id', "DESC")
             .getCount();
+
+
 
         res.status(200).send({countValue: countValue});
     }
