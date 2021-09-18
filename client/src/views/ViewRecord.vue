@@ -148,7 +148,31 @@
                         break;
                 }
             },
+            //    generateReport(): void {
+            //     const doc = new PDFDocument();
+            //     const stream = doc.pipe(blobStream());
+            //     doc.setEncoding("utf-8");
+            //     // text +=
+            //     doc.text("Отчет", 20, 20, { align: 'center' });
+                
+            //     for (let i = 0; i < this.record.violation.length; i++) {
+            //         const v = this.record.violation[i];
+            //         doc.text(`${v.timeCode} ${v.word}`, 20, 40 + 20 * i, { align: 'left' });
+            //     }
+            //     stream.on("finish", () => {
+            //         // const blob = stream.toBlob("application/pdf");
+            //         const url = stream.toBlobURL("application/pdf");
+            //         const a = document.createElement("a") as HTMLAnchorElement;
+            //         a.setAttribute("download", "report.pdf");
+            //         a.href = url;
+            //         document.body.appendChild(a);
+            //         a.click();
+            //         setTimeout(() => { document.body.removeChild(a) }, 0);
+            //     });
+            //     // doc.save("report.pdf");
+            // }
             generateReport(): void {
+             
                 const doc = new jsPDF();
                 doc.setLanguage("ru");
                 // text +=
