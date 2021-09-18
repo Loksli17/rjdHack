@@ -5,7 +5,7 @@
                 v-if="!columnsToHide.includes(name)" 
                 style="white-space: pre-line"
             >
-                <span :class="[{'checked': value == 'обработан'},{'not-checked': value == 'Не обработан'}]">{{ value }}</span>
+                <span :class="[{'checked': value == 'Обработан'},{'not-checked': value == 'Не обработан'}]">{{ value }}</span>
             </td>
         </template>
         <TableRowActionCell v-if="actions" :actions="actions" :itemId="row.id" />
