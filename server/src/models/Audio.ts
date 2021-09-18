@@ -27,8 +27,12 @@ export default class Audio{
     @Column()
     public isChecked: boolean = false;
 
+    @Column()
     public isIllegal: boolean = false;
 
+    @Column()
+    public date: string = '';
+    
     public violationCount: number  = 0 ; 
 
     @ManyToMany(() => Worker, worker => worker.audios)
