@@ -47,7 +47,8 @@
                     </div>
 
                     <div class="tab" :class="{'tab-active': errorStatus}">
-                        <h3>Ошибки</h3>
+                        <h2>Ошибки</h2>
+                        
                         <div class="violation-lst-container">
                             <ul class="volation-list">
                                 <li v-for="violation in record.violation" :key="violation.id">
@@ -197,6 +198,9 @@
 
 
     .view{
+
+        padding-bottom: 50px;
+
         .row:first-child{
             padding: 0px 50px;
             @include grid-left;
@@ -235,6 +239,7 @@
             }
 
             button{
+                font-size: 19px;
                 @include button;
             }
         }
@@ -250,6 +255,7 @@
             height: 650px;
 
             .col-1{
+                height: 520px;
                 padding: 40px;
                 width: 13vw;
                 background: #FFF;
@@ -289,6 +295,7 @@
             .col-2{
                 padding: 40px;
                 background: #FFF;
+                height: 520px;
                 max-height: 650px;
                 overflow-y: auto;
                 @include drop-shadow;
