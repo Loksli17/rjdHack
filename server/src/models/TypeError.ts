@@ -14,9 +14,9 @@ export default class TypeError{
     @PrimaryGeneratedColumn()
     public id?: number;
 
+    @Column()
     @IsNotEmpty()
     public name: string = 'default name'; 
-
 
     @OneToMany(() => TypeError, typeError => typeError.violation)
     public violation?: Array<Violation> | undefined;

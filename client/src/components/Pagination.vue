@@ -23,7 +23,7 @@
             </template>
 
             <div v-if="nextPage">
-                <a :href="nextPage.link" :class="nextPage.class" @click.prevent="setCurrentPageEvt">
+                <a :href="nextPage.link" :class="nextPage.class" @click.prevent.self="setCurrentPageEvt">
                     <span>{{nextPage.content}}</span>
                 </a>
             </div>
@@ -98,11 +98,13 @@
             }
         },
         methods: {
+            
             setAmountElements(newVal: number){
                 this.amountElements = newVal;
                 this.init();
                 this.render();
             },
+
             render: function(): void{
                 this.skip = this.take * (this.currentPageData - 1);
                 const pageEndPoints: {first: number; last: number} = this.countEndPoints();
@@ -137,6 +139,7 @@
                     this.currentPageData = this.currentPage;
                 }
             },
+
             countEndPoints: function(): {first: number; last: number} {
                 let 
                     first: number = 0,
@@ -166,6 +169,7 @@
                     last : last,
                 }
             },
+
             createPages: function(first: number, last: number): Array<Page>{
                 if(this.amountElements <= this.take){return [];}
                 
@@ -181,6 +185,7 @@
                 }
                 return pages;
             },
+
             createStepPages: function(): {next: Page | undefined; prev: Page | undefined}{
                 if(this.amountElements <= this.take){return {next: undefined, prev: undefined};}
                 
@@ -203,6 +208,7 @@
                 };
                 
             },
+
             setCurrentPageEvt: function(e: any){
                 let target = e.target as HTMLElement;
                 
@@ -217,6 +223,7 @@
                 
                 this.$emit('page-change', {skip: this.skip, take: this.take});
             },
+
             getCurrentPage: function(){
                 return this.currentPageData;
             },

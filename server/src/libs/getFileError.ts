@@ -23,6 +23,8 @@ export default async (words: string, audioId: number): Promise<Array<ErrorLexem>
         way     : ['маршрут на проход по главному пути готов'],
     };
 
+    console.log(typeErrors);
+
     if(wordsArray[0] + '' + wordsArray[1] + '' + wordsArray[2] != sheme.gretting){
 
         const error: ErrorLexem = {
