@@ -250,7 +250,7 @@ export default class AudioController{
 
         let 
             uploadedFile: FileArray | undefined = req.files,
-            token       : string                = "t1.9euelZrKisyWio2Xy52SmcfInM6diu3rnpWal56Qz5KPiZSQnY-Pjp6byM_l8_dFKWt1-e9-QQVt_d3z9wVYaHX5735BBW39.75wgZ35ZvrEQCyRyxy0ZvV7VjrwJFZsRgtED9lNjodeb9mGlnc81thFdamNQBNNTCTXXYCkUfUbXmFLcBtChAw",
+            token       : string                = "t1.9euelZqaiZaOzY6Uzcabmo-Ol8iTme3rnpWal56Qz5KPiZSQnY-Pjp6byM_l9Pcxbmh1-e8kAFCm3fT3cRxmdfnvJABQpg.nrl1Fq4LLMrTjCbqhVuzjdGt5Nra2PrhGtqfQa9Q3eNhLNhK8xRxGKLAGroJ1odlBqPIw9xZyxGBOVz0aiBaDg",
             file        : UploadedFile;
 
         if(uploadedFile == undefined) { res.status(400).send({msg: 'err with files'}); return }
