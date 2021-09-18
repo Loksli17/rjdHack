@@ -15,7 +15,7 @@ export default class Violation{
     }
 
     @PrimaryGeneratedColumn()
-    public id?: number;
+    public id?: number = 0;
 
     @Column()
     @IsNotEmpty()

@@ -20,6 +20,7 @@ import Worker         from "../models/Worker";
 import WorkerHasAudio from "../models/workerHasAudio";
 
 import getFileError, {ErrorLexem}   from "../libs/getFileError";
+import { error } from "console";
 
 export default class AudioController{
 
@@ -308,6 +309,19 @@ export default class AudioController{
         
         const errors: Array<ErrorLexem> = await getFileError(result.data.result, insert ? insert.id : audio!.id);
         console.log('errors:', errors);
+
+        errors.forEach(async err => {
+            
+            await getRepository(Violation).save(
+                {
+                    word    : err.word, 
+                    timeCode: err.timeCode, 
+                    workerId: 1, 
+                    audioId : insert ? insert.id : audio!.id,
+                    typeErrorId: err.typeErrorId,
+                }
+            )
+        });
 
         res.status(200).send({msg: 'Success', id: insert ? insert.id : audio!.id, errors: errors});
     }
