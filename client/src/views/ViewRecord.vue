@@ -82,8 +82,6 @@
 
                         <div>
                             <h4>Работники переговоров</h4>
-                            <!-- Добавить нормальный вывод работников -->
-                            <!-- <div>{{record.workers}}</div> -->
                             <ul class="worker-list" v-if="record.workers">
                                 <li v-for="worker in record.workers">{{ worker.lastName }} {{ worker.firstName }}</li>
                             </ul>

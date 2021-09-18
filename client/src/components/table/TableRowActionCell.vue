@@ -1,5 +1,5 @@
 <template>
-    <td class="table-row-action-cell">
+    <td>
         <!-- <a href="" @click.prevent="removeArticle(item.id)">Delete</a>
         <router-link :to="`/crud/${item.id}/edit`">Edit</router-link>
         <router-link :to="`/crud/${item.id}/view`">View</router-link> -->
@@ -10,7 +10,7 @@
                 :to="action.path(itemId)"
             >
                 {{ action.name }}
-                <img v-if="action.imgPath" :src="action.imgPath">
+                <img class="action-cell-image" v-if="action.imgPath" :src="action.imgPath">
             </router-link>
             <a 
                 v-else-if="action.handler !== undefined" 
@@ -19,7 +19,7 @@
                 @click.prevent="action.handler(itemId)"
             >
                 {{ action.name }}
-                <img v-if="action.imgPath" :src="action.imgPath">
+                <img class="action-cell-image" v-if="action.imgPath" :src="action.imgPath">
             </a>
         </template>
     </td>
@@ -44,14 +44,12 @@
 </script>
 
 <style lang="scss">
-    .table-row-action-cell {
-        img {
-            width: 20px;
-            height: 20px;
-        }
-    
-        .link-image {
-            text-decoration: none;
-        }
+    .action-cell-image {
+        width: 20px;
+        height: 20px;
+    }
+
+    .link-image {
+        text-decoration: none;
     }
 </style>
