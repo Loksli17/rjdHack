@@ -64,7 +64,7 @@ export default class AudioController{
                 .where('violation.audioId = :id' ,{id: audios[i].id})
                 .getCount();
         }
-        console.log(audios);
+      
         res.status(200).send({audios: audios});
     }
 
@@ -174,7 +174,11 @@ export default class AudioController{
 
         if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
 
-        audio = await getRepository(Audio).findOne(QueryData.id);
+        audio = await getRepository(Audio)
+            .findOne(QueryData.id);
+
+        console.log(audio);    
+
 
         res.status(200).send({audio: audio});
     }
