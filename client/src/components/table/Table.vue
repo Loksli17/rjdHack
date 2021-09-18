@@ -73,7 +73,13 @@
                     for (const col of this.cols) {
                         const fieldName: keyof typeof row = col.fieldName;
                         if (!(fieldName in row)) continue;
-                        newRow[fieldName] = row[fieldName];
+
+                        if (col.columnHandler) {
+                            newRow[fieldName] = col.columnHandler(row[fieldName]);
+                        } else {
+                            newRow[fieldName] = row[fieldName];
+                        }
+
                     }
 
                     arr.push(newRow);

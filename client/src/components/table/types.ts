@@ -1,6 +1,7 @@
 export interface Column {
     fieldName: string;
     displayedName: string;
+    columnHandler?: (value: any) => string;
 }
 
 export interface Action {
