@@ -12,7 +12,7 @@ import EasyYandex         from 'easy-yandex-s3';
 import axios, { AxiosResponse } from "axios";
 import { createReadStream } from "fs";
 import moment               from 'moment';
-
+import TypeError from "../models/TypeError";
 
 import Violation      from "../models/Violation";
 //import { Worker } from "cluster";
@@ -190,7 +190,6 @@ export default class AudioController{
         if (audio != undefined && audio != null){
             audio.violation = await getRepository(Violation).createQueryBuilder('violation')
             .innerJoin('audio' , 'audio', 'violation.audioId = audio.id')
-            .innerJoin('typeError', 'typeError', 'typeError.id = violation.typeErrorId')
             .where('audio.id = :id' , {id: audio.id} )
             .getMany();            
 
@@ -199,11 +198,14 @@ export default class AudioController{
                 audio.violation[i].worker = await getRepository(Worker).createQueryBuilder()
                     .where('worker.id = :id',{id: audio.violation[i].workerId})
                     .getOne();
+                
+                audio.violation[i].typeError = await getRepository(TypeError).createQueryBuilder()
+                    .where('typeError.id = :id',{id: audio.violation[i].typeErrorId})
+                    .getOne();                    
             }
         }             
 
-        console.log(audio);
-
+        
         res.status(200).send({audio: audio});
     }
 
