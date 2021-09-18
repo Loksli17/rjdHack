@@ -132,6 +132,7 @@
                         grid-template-columns: max-content max-content 1fr 1fr;
                         justify-content: flex-start;
                         column-gap: 20px;
+                        font-size: 21px;
                     }
                 }
             }

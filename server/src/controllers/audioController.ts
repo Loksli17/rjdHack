@@ -258,7 +258,7 @@ export default class AudioController{
 
         let 
             uploadedFile: FileArray | undefined = req.files,
-            token       : string                = "t1.9euelZqTypeUz52Mi5rNkJrLmo2KmO3rnpWal56Qz5KPiZSQnY-Pjp6byM_l8_dPCmh1-e9WLg1p_N3z9w85ZXX571YuDWn8.GiXX_p0Whi_SmOXPFx1fLkuU3Ke4UTDa7ygco7lHRhjWUHiqDK9pq2jINcZzlw4IsMF-37bXaqttzu1nvBeHCg",
+            token       : string                = "t1.9euelZqexpaajZyNlI2TlZmPzpHInO3rnpWal56Qz5KPiZSQnY-Pjp6byM_l8_clfmd1-e8GMVR3_d3z92UsZXX57wYxVHf9.82yp6JKxhS66d19JSMC1EYz0BLAlF8d90lcB-VnCPNcj-TPXVTUgWpUvuU4WFwT_AiB9UVzMDOWewejMeFgJDg",
             file        : UploadedFile;
 
         if(uploadedFile == undefined) { res.status(400).send({msg: 'err with files'}); return }
@@ -321,7 +321,6 @@ export default class AudioController{
         console.log('errors:', errors);
 
         errors.forEach(async err => {
-            
             await getRepository(Violation).save(
                 {
                     word    : err.word, 
