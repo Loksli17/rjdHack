@@ -35,19 +35,29 @@ export default async (words: string, audioId: number): Promise<Array<ErrorLexem>
         errors.push(error);
     }
 
-    if(wordsArray[4] + '' + wordsArray[5] + '' + wordsArray[6] != sheme.gretting){
+    if(wordsArray[4] + '' + wordsArray[5] + '' + wordsArray[6] != sheme.arrival){
 
         const error: ErrorLexem = {
-            timeCode   : '04:00',
+            timeCode   : '00:04',
             word       : wordsArray[4] + " " + wordsArray[5] + " " + wordsArray[6],
             typeErrorId: typeErrors[1].id!,
             typeError  : typeErrors[1].name,
-            // way        : 
         };
 
         errors.push(error);
     }
 
+    if(wordsArray[8] + '' + wordsArray[9] + '' + wordsArray[10] != sheme.arrival){
+
+        const error: ErrorLexem = {
+            timeCode   : '00:07',
+            word       : wordsArray[8] + " " + wordsArray[9] + " " + wordsArray[10],
+            typeErrorId: typeErrors[2].id!,
+            typeError  : typeErrors[2].name, 
+        };
+
+        errors.push(error);
+    }
 
     return errors;
 }

@@ -91,6 +91,7 @@
                     '.avi'  : 'avi.png',
                     '.gif'  : 'gif.png',
                     '.vsdx' : 'visio.svg',
+                    '.wav'  : 'wav.svg'
                 } as TypeIcon,
             }
         },
@@ -277,34 +278,38 @@
 
 
 <style lang="scss" scoped>
+
+    @import '../../assets/scss/utils.scss';
+
+
     .file-upload-container{
-        margin-top: 20px;
+        margin-top: 30px;
         cursor: pointer;
 
         .file-container{
             margin-top: 20px;
             display: grid;
-            row-gap: 10px;
+            row-gap: 30px;
         }
         
         .file-upload-field{
             padding: 20px;
-            border: 2px dashed #0cdfa0;
+            border: 3px dashed $redColor;
             display: grid;
             justify-content: center;
 
             span{
-                font-size: 20px;
+                font-size: 24px;
             }
 
             &:hover{
                 transition: 0.4s;
-                background-color: rgba($color: #dafcf2, $alpha: 0.6);
+                background-color: rgba($color: #f1928d, $alpha: 0.6);
             }
         }
 
         .file-upload-field-drag{
-            border: 2px dashed #4678e4;
+            border: 2px dashed #f1928d;
         }
     }
 </style>

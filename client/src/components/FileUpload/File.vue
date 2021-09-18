@@ -56,16 +56,19 @@
 
 
 <style lang="scss" scoped>
+
+    @import '../../assets/scss/utils.scss';
+
     .file{
         width: 100%;
         display: grid;
         column-gap: 20px;
         grid-template-columns: 60px 1fr 4fr max-content;
         align-items: center;
-        height: 50px;
+        height: 45px;
 
         img{
-            width: 100%;
+            width: 80%;
         }
 
         .filename{
@@ -100,17 +103,17 @@
 
         progress::-webkit-progress-value{
             @include progress;
-            background-color: rgb(76, 231, 231);
+            background-color: $redColor;
         }
 
         progress::-webkit-progress-bar{
             @include progress;
-            background-color: rgb(203, 216, 216);
+            background-color: #e6dede;
         }
 
         progress::-moz-progress-bar{
             @include progress;
-            background-color: rgb(203, 216, 216);
+            background-color: #e6dede;
         }
     }
 

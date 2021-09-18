@@ -5,7 +5,7 @@
             <FileUpload
                 :maxFilesAmount="20"
                 :autoLoad="true"
-                :message="'Перетащите файлы сюда или нажмите на область!'"
+                :message="'Перетащите файл или нажмите на область, чтобы загрузить файл!'"
                 v-on:load-handler="fileLoad"
                 v-on:type-error-handler="fileTypeError"
                 v-on:size-error-handler="fileSizeError"
@@ -96,11 +96,15 @@
             .file-error-wrap{
                 display: grid;
                 row-gap: 50px;
+                max-height: 360px;
+                overflow-y: auto;
             }
 
             padding: 30px;
-            background: $color;
-            margin: 30px 50px;
+            background: #fff;
+            border-radius: 20px;
+            margin: 40px 50px;
+            
 
             h1{
                 text-align: left;
