@@ -14,7 +14,7 @@
             </router-link>
             <a 
                 v-else-if="action.handler !== undefined" 
-                :class="action.cssClassName"
+                :class="[action.cssClassName, {'link-image': action.imgPath}]"
                 href="" 
                 @click.prevent="action.handler(itemId)"
             >
@@ -47,5 +47,9 @@
     img {
         width: 20px;
         height: 20px;
+    }
+
+    .link-image {
+        text-decoration: none;
     }
 </style>
