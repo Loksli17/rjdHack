@@ -10,6 +10,7 @@
                 :to="action.path(itemId)"
             >
                 {{ action.name }}
+                <img v-if="action.imgPath" :src="action.imgPath">
             </router-link>
             <a 
                 v-else-if="action.handler !== undefined" 
@@ -18,6 +19,7 @@
                 @click.prevent="action.handler(itemId)"
             >
                 {{ action.name }}
+                <img v-if="action.imgPath" :src="action.imgPath">
             </a>
         </template>
     </td>

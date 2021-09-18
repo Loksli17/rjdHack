@@ -74,12 +74,7 @@
                         const fieldName: keyof typeof row = col.fieldName;
                         if (!(fieldName in row)) continue;
 
-                        if (col.columnHandler) {
-                            newRow[fieldName] = col.columnHandler(row[fieldName]);
-                        } else {
-                            newRow[fieldName] = row[fieldName];
-                        }
-
+                        newRow[fieldName] = col.columnHandler ? col.columnHandler(row[fieldName]) : row[fieldName];
                     }
 
                     arr.push(newRow);

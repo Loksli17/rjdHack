@@ -46,6 +46,7 @@
 
     export default defineComponent({
         name: "popup-user-filter",
+        // emits: ["workers-selected"],
         data() {
             return {
                 searchData: "" as string,
@@ -74,11 +75,12 @@
                 }
             },
             resultSubmit(): void {
+                // this.$emit("workers-selected", Array.from(this.selectedWorkersList));
                 this.$flashMessage.show({
                     type: "success",
                     title: "Здраствуйте",
                     text: "Я, Кирилл. Хотел бы чтобы вы сделали игру, 3Д-экшон суть такова... И если пользователь играет эльфами то эльфы в лесу, домики деревяные набигают солдаты дворца и злодеи. Можно грабить корованы..."
-                })
+                });
             }
         }
     })
