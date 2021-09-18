@@ -62,15 +62,18 @@ export default class AudioController{
 
             audiosNormalize[i].workers = await getRepository(Worker).createQueryBuilder('worker') 
                 .innerJoin('workerHasAudio', 'wha', 'worker.id = wha.workerId') 
-                .innerJoin('audio', 'audio', 'audio.id = wha.audioId')                   
+                .innerJoin('audio', 'audio', 'audio.id = wha.audioId')   
                 .where('audio.id = :id' , {id: audios[i].id})
                 .getMany();
                 
             audiosNormalize[i].violationCount = await getRepository(Violation).createQueryBuilder('violation')
                 .where('violation.audioId = :id' ,{id: audios[i].id})
+                .innerJoin('typeError','typeError','typeError.id = violation.typeError.id')          
                 .getCount();
         }
-      
+
+        console.log(audiosNormalize);
+
         res.status(200).send({audios: audiosNormalize});
     }
 
