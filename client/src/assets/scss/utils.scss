@@ -1,6 +1,9 @@
-$menuHeigth: 60px;
+$menuHeigth: 75px;
+$page-gap: 70px;
 $color: rgb(219, 219, 218);
 $addColor: rgb(99, 230, 175);
+$redColor: #F54F45;
+$redColorHover: #f72e24;
 
 
 *{
@@ -10,6 +13,7 @@ $addColor: rgb(99, 230, 175);
 
 .page-wrap{
     margin-top: $menuHeigth + 30px;
+    padding-bottom: 50px;
 }
 
 @mixin page-row{
@@ -34,15 +38,16 @@ $addColor: rgb(99, 230, 175);
 
 @mixin button{ 
     padding: 10px 15px;
-    background: $addColor;
+    background: $redColor;
     border: 0px;
     color: #fff;
     font-size: 20px;
     cursor: pointer;
+    border-radius: 18px;
 
     &:hover{
         transition: 0.4s;
-        background: rgb(48, 197, 135);
+        background: $redColorHover;
     }
 }
 
