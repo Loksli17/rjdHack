@@ -175,6 +175,7 @@
             grid-template-columns: 1fr 1fr;
             padding: 0px 0px 0px 50px;
             border-radius: 24px;
+            box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.25);
 
             .col-1{
                 display: flex;
