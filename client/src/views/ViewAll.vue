@@ -67,7 +67,7 @@
                 showPopup: false as boolean,
 
                 skip   : 0 as number,
-                take   : 12 as number,
+                take   : 11 as number,
                 records: [] as Array<Record<string, any>>,
 
                 currentPage  : 1 as number,

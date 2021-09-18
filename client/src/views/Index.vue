@@ -1,7 +1,7 @@
 <template>
     <div class="page-wrap index">
 
-        <div class="row row-hello">
+        <div class="row-hello">
             <div class="col-1">
                 <span>
                     Добро пожаловать, Алекcандр Холодилов
@@ -11,9 +11,7 @@
                 </h2>
             </div>
 
-            <div class="col">
-
-            </div>
+            <div class="col-2"></div>
         </div>
 
         <div class="row ">
@@ -101,7 +99,7 @@
                 showPopup: false as boolean,
 
                 skip   : 0 as number,
-                take   : 9 as number,
+                take   : 6 as number,
                 records: [] as Array<Record<string, any>>,
 
                 currentPage  : 1 as number,
@@ -171,10 +169,12 @@
         .row-hello{
             margin: 0px 50px;
             height: 180px;
-            background: $color;
+            background: #fff;
             display: grid;
             grid-auto-flow: column;
             grid-template-columns: 1fr 1fr;
+            padding: 0px 0px 0px 50px;
+            border-radius: 24px;
 
             .col-1{
                 display: flex;
@@ -184,13 +184,21 @@
 
                 span{
                     text-align: left;
-                    font-size: 20px;
+                    font-size: 25px;
                 }
 
                 h2{
                     margin-top: 10px;
                     text-align: left;
                 }
+            }
+
+            .col-2{
+                background-image: url("./../assets/index-img.png");
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+                border-radius: 0px 20px 20px 0px;
             }
         }
 

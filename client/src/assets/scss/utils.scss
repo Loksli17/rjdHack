@@ -4,6 +4,7 @@ $color: rgb(219, 219, 218);
 $addColor: rgb(99, 230, 175);
 $redColor: #F54F45;
 $redColorHover: #f72e24;
+$backgroundColor: #F7F2F2;
 
 
 *{
@@ -12,8 +13,11 @@ $redColorHover: #f72e24;
 }
 
 .page-wrap{
-    margin-top: $menuHeigth + 30px;
+    padding-top: $menuHeigth + 30px;
     padding-bottom: 50px;
+    background: $backgroundColor;
+    box-sizing: border-box;
+    height: 100vh;
 }
 
 @mixin page-row{
