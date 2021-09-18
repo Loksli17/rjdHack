@@ -204,8 +204,7 @@ export default class AudioController{
             }
         }             
 
-        console.log(audio);
-
+        
         res.status(200).send({audio: audio});
     }
 
