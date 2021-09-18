@@ -57,6 +57,8 @@ export default class AudioService{
                 loadingFile.progress = Math.floor(e.loaded * 100 / e.total);
             }
         });
+
+        return res;
     }
 
 

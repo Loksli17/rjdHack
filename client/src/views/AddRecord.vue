@@ -12,6 +12,20 @@
                 v-on:not-drag-and-drop-capable-error="dragAndDropCapableError"
             />
         </div>
+
+        <div class="row">
+
+            <div class="error-file" v-for="(file, index) in filesError" :key="index">
+                
+                <div>
+                    {{file.file.name}}
+                </div>
+
+                <div class="error" v-for="( in filesError">
+                    {{file.errors}}
+                </div>
+            </div>
+        </div>
         
     </div>
 </template>
@@ -21,6 +35,7 @@
     import { defineComponent }         from 'vue';
     import FileUpload, { LoadingFile } from '../components/FileUpload/FileUpload.vue';
     import AudioService                from '../services/AudioService';
+    import {AxiosResponse}             from 'axios';
 
     
     export default defineComponent({
@@ -31,11 +46,22 @@
             FileUpload,
         },
 
+        data: function(){
+            return {
+                filesError: [] as Array<Record<string, any>>,
+            }  
+        },
+
         methods: {
 
             fileLoad: async function(loadingFile: LoadingFile){
                 console.log(loadingFile);
-                await AudioService.fileUpload(loadingFile);
+                const res: AxiosResponse = await AudioService.fileUpload(loadingFile);
+
+                let obj: Record<string, any> = Object.assign({}, loadingFile);
+                obj.errors = res.data.errors;
+                
+                if(res.data.errors.length > 0) this.filesError.push(obj);
             }
         },
     });
