@@ -204,9 +204,13 @@
                 
             },
             setCurrentPageEvt: function(e: any){
+                let target = e.target as HTMLElement;
+                
+                if (target.tagName.toLowerCase() === "span") target = target.parentElement!;
+
                 const 
                     reg: RegExp     = /\d+/g,
-                    newPage: number = Number(e.target.href.match(reg)[1]);
+                    newPage: number = Number((target as HTMLAnchorElement).href.match(reg)![1]);
                
                 this.currentPageData = newPage;
                 this.render();
