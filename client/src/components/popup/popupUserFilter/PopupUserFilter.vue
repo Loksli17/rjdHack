@@ -1,10 +1,11 @@
 <template>
     <div class="popup-user-filter-wrapper">
-        <h1>Поиск пользователей</h1>
+        <h1>Фильтрация участников</h1>
+        
         <div class="popup-user-filter-search">
-            <input type="search" v-model="searchData">
-            <button @click="getFilteredWorkerList">Искать</button>
+            <input @change="getFilteredWorkerList" type="search" v-model="searchData">
         </div>
+
         <div class="popup-user-filter-data">
             <div>
                 <ul>
@@ -47,16 +48,19 @@
     export default defineComponent({
         name: "popup-user-filter",
         // emits: ["workers-selected"],
+        
         data() {
             return {
-                searchData: "" as string,
+                searchData         : "" as string,
                 selectedWorkersList: new Set<Worker>(),
-                filteredWorkerList:  [] as Array<Worker>
+                filteredWorkerList : [] as Array<Worker>
             }
         },
+
         mounted() {
-            this.getFilteredWorkerList();
+            // this.getFilteredWorkerList();
         },
+
         methods: {
             async getFilteredWorkerList(): Promise<void> {
                 try {
@@ -77,6 +81,7 @@
             resultSubmit(): void {
                 // this.$emit("workers-selected", Array.from(this.selectedWorkersList));
                 // ! this.selectedWorkersList это Set
+                
                 const selectedWorkers = Array.from(this.selectedWorkersList);
                 this.$flashMessage.show({
                     type: "success",
@@ -89,11 +94,18 @@
 </script>
 
 <style lang="scss" scoped>
+
+    @import '../../../assets/scss/utils.scss'; 
+
     .popup-user-filter-wrapper {
         background-color: white;
         padding: 20px;
         height: 100%;
         border-radius: 10px;
+
+        button{
+            @include button;
+        }
 
         .popup-user-filter-data {
             display: flex;

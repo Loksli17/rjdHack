@@ -28,6 +28,9 @@
 </script>
 
 <style lang="scss" scoped>
+    
+    @import '../../assets/scss/utils.scss';
+
     .popup-container {
         position: fixed;
         display: flex;

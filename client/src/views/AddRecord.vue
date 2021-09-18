@@ -1,5 +1,5 @@
 <template>
-    <div class="page-wrap add-files">
+    <div id="height" class="page-wrap add-files">
 
         <div class="row">
             <FileUpload
@@ -81,6 +81,12 @@
 
     @import '../assets/scss/utils.scss';
 
+    #height{
+        height: max-content;
+        min-height: 100vh;
+        padding-bottom: 50px;
+    }
+
     .add-files{
 
         .row:first-child{
@@ -96,14 +102,12 @@
             .file-error-wrap{
                 display: grid;
                 row-gap: 50px;
-                max-height: 360px;
-                overflow-y: auto;
             }
 
             padding: 30px;
             background: #fff;
             border-radius: 20px;
-            margin: 40px 50px;
+            margin: 50px;
             
 
             h1{

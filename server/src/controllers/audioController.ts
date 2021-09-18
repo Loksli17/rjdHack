@@ -321,15 +321,20 @@ export default class AudioController{
         console.log('errors:', errors);
 
         errors.forEach(async err => {
-            await getRepository(Violation).save(
-                {
-                    word    : err.word, 
-                    timeCode: err.timeCode, 
-                    workerId: 1, 
-                    audioId : insert ? insert.id : audio!.id,
-                    typeErrorId: err.typeErrorId,
-                }
-            )
+
+            const violation = await getRepository(Violation).createQueryBuilder().where("audioId = :id && timeCode = :code", {id: insert ? insert.id : audio!.id, code: err.timeCode}).getOne();
+
+            if(violation == undefined) {
+                await getRepository(Violation).save(
+                    {
+                        word    : err.word, 
+                        timeCode: err.timeCode, 
+                        workerId: 1, 
+                        audioId : insert ? insert.id : audio!.id,
+                        typeErrorId: err.typeErrorId,
+                    }
+                )
+            }
         });
 
         res.status(200).send({msg: 'Success', id: insert ? insert.id : audio!.id, errors: errors});
@@ -353,6 +358,12 @@ export default class AudioController{
         if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
 
         await getRepository(WorkerHasAudio).createQueryBuilder()
+            .where('audioId = :id', {id: QueryData.id})
+            .delete()
+            .execute();
+
+
+        await getRepository(Violation).createQueryBuilder()
             .where('audioId = :id', {id: QueryData.id})
             .delete()
             .execute();
