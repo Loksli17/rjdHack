@@ -41,7 +41,6 @@
 
                     <div class="text tab" :class="{'tab-active': textStatus}">
                         {{record.text}}
-                        <AudioTImeCode :time="15" @get-time="currentTimeStamp = $event" />
                     </div>
 
                     <div class="tab" :class="{'tab-active': errorStatus}">

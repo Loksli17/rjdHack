@@ -3,6 +3,7 @@
 </template>
 
 <script lang="ts">
+    import moment from 'moment';
     import { defineComponent } from 'vue'
 
     export default defineComponent({
@@ -22,7 +23,7 @@
                 // }
 
                 // return time;
-                return this.time.toString();
+                return moment.utc(this.time * 1000).format("mm:ss");
             }
         },
         methods: {
