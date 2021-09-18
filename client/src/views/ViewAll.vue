@@ -112,6 +112,7 @@
 <style lang="scss">
 
     @import '../assets/scss/utils.scss';
+    @import '../assets/scss/pagination.scss';
     $row-padding: 25px;
 
     .view-all{
@@ -125,7 +126,7 @@
             @include page-row;
         }
 
-
+        
 
         table {
             border: none;

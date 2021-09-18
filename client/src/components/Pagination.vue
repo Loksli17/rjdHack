@@ -4,33 +4,33 @@
 
             <div v-if="firstPage">
                 <a :href="firstPage.link" :class="firstPage.class" @click.prevent="setCurrentPageEvt">
-                    {{firstPage.content}}
+                    <span>{{firstPage.content}}</span>
                 </a>
             </div>
 
             <div v-if="prevPage">
                 <a :href="prevPage.link" :class="prevPage.class" @click.prevent="setCurrentPageEvt">
-                    {{prevPage.content}}
+                    <span>{{prevPage.content}}</span>
                 </a>
             </div>
 
             <template v-for="page in pages" :key="page">
                 <div>
                     <a :href="page.link" :class="page.class" @click.prevent="setCurrentPageEvt">
-                        {{page.content}}
+                        <span>{{page.content}}</span>
                     </a>
                 </div>
             </template>
 
             <div v-if="nextPage">
                 <a :href="nextPage.link" :class="nextPage.class" @click.prevent="setCurrentPageEvt">
-                    {{nextPage.content}}
+                    <span>{{nextPage.content}}</span>
                 </a>
             </div>
 
             <div v-if="lastPage">
                 <a :href="lastPage.link" :class="lastPage.class" @click.prevent="setCurrentPageEvt">
-                    {{lastPage.content}}
+                    <span>{{lastPage.content}}</span>
                 </a>
             </div>
         </div>
@@ -224,7 +224,7 @@
     });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     
     .pages{
         margin-top: 30px;
@@ -240,19 +240,19 @@
                     font-size: 20px;
                     color: #000;
                     text-decoration: none;
-                    border-top: 2px #85e7ca solid;
-                    border-bottom: 2px #85e7ca solid;
-                    border-right: 2px #85e7ca solid;
-                    &:hover{
-                        background: paleturquoise;
-                        transition: 0.4s;
-                    }
+                    // border-top: 2px #85e7ca solid;
+                    // border-bottom: 2px #85e7ca solid;
+                    // border-right: 2px #85e7ca solid;
+                    // &:hover{
+                    //     background: paleturquoise;
+                    //     transition: 0.4s;
+                    // }
                 }
                 .active-page{
-                    background: #85e7ca;
+                    // background: #85e7ca;
                 }
                 &:first-child .page{
-                    border-left: 2px #48d8ad solid;
+                    // border-left: 2px #48d8ad solid;
                 }
             } 
         }

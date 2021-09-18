@@ -144,7 +144,7 @@
 
 <style lang="scss">
     @import '../assets/scss/utils.scss';
-
+    @import '../assets/scss/pagination.scss';
 
     .index{
 
