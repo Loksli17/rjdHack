@@ -33,11 +33,10 @@ export default class Audio{
     @Column()
     public date: string = '';
     
-    public violationCount: number  = 0 ; 
 
-    @ManyToMany(() => Worker, worker => worker.audios)
+    @ManyToMany(() => Worker, worker => worker.audios, {onUpdate: 'CASCADE', onDelete: 'CASCADE'})
     public workers?: Array<Worker> | undefined;
 
-    @OneToMany(() => Audio, audio => audio.violation)
+    @OneToMany(() => Audio, audio => audio.violation, {onUpdate: 'CASCADE', onDelete: 'CASCADE'})
     public violation?: Array<Violation> | undefined;
 }

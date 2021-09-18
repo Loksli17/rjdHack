@@ -8,7 +8,9 @@
         <div class="row">
             <h1> Файл: {{record.fileAudio}}</h1>
             <button @click="showPopup = true">Редактировать</button>
-            <AudioPlayer v-if="record.fileAudio" v-model:currentTime="currentTimeStamp" :src="`http://localhost:3000/audios/${record.fileAudio}`" />
+            <div>
+                <AudioPlayer v-if="record.fileAudio" v-model:currentTime="currentTimeStamp" :src="`http://localhost:3000/audios/${record.fileAudio}`" />
+            </div>
         </div>
 
         <div class="row">
@@ -167,7 +169,11 @@
         .row:nth-child(2){
             @include grid-left;
             column-gap: 30px;
-            grid-template-columns: max-content max-content;
+            grid-template-columns: max-content max-content 1fr;
+
+            audio{
+                width: 100%;
+            }
 
             button{
                 @include button;

@@ -14,12 +14,11 @@ import { createReadStream } from "fs";
 import moment               from 'moment';
 
 
-
-
-import Violation from "../models/Violation";
+import Violation      from "../models/Violation";
 //import { Worker } from "cluster";
-import Worker from "../models/Worker";
+import Worker         from "../models/Worker";
 import WorkerHasAudio from "../models/workerHasAudio";
+import getFileError   from "../libs/getFileError";
 
 
 export default class AudioController{
@@ -38,9 +37,10 @@ export default class AudioController{
         }
 
         let
-            dataErrors: Array<keyof QueryData> = [],
-            audios    : Array<Audio>           = [],
-            QueryData : QueryData              = req.body;
+            dataErrors     : Array<keyof QueryData>     = [],
+            audios         : Array<Audio>               = [],
+            audiosNormalize: Array<Record<string, any>> = [],
+            QueryData      : QueryData                  = req.body;
 
         dataErrors = Query.checkData(QueryData, ['skip', 'take']);
 
@@ -55,19 +55,22 @@ export default class AudioController{
             .orderBy('audio.id', "DESC")
             .getMany();           
 
-         for (let i = 0; i < audios.length; i++){        
-            audios[i].workers = await getRepository(Worker).createQueryBuilder('worker') 
+         for (let i = 0; i < audios.length; i++){
+            
+            audiosNormalize.push(audios[i]);
+
+            audiosNormalize[i].workers = await getRepository(Worker).createQueryBuilder('worker') 
                 .innerJoin('workerHasAudio', 'wha', 'worker.id = wha.workerId') 
                 .innerJoin('audio', 'audio', 'audio.id = wha.audioId')                   
                 .where('audio.id = :id' , {id: audios[i].id})
                 .getMany();
                 
-            audios[i].violationCount = await getRepository(Violation).createQueryBuilder('violation')
+            audiosNormalize[i].violationCount = await getRepository(Violation).createQueryBuilder('violation')
                 .where('violation.audioId = :id' ,{id: audios[i].id})
                 .getCount();
         }
       
-        res.status(200).send({audios: audios});
+        res.status(200).send({audios: audiosNormalize});
     }
 
 
@@ -106,10 +109,11 @@ export default class AudioController{
         }
 
         let 
-            workers   : Array<Worker>          = [],
-            dataErrors: Array<keyof QueryData> = [],
-            audios    : Array<Audio>           = [],
-            QueryData : QueryData              = req.body;
+            workers        : Array<Worker>              = [],
+            dataErrors     : Array<keyof QueryData>     = [],
+            audios         : Array<Audio>               = [],
+            audiosNormalize: Array<Record<string, any>> = [],
+            QueryData      : QueryData                  = req.body;
 
         dataErrors = Query.checkData(QueryData, ['skip', 'take']);
 
@@ -123,14 +127,17 @@ export default class AudioController{
             .getMany();
 
 
-        for (let i = 0; i < audios.length; i++){        
-            audios[i].workers = await getRepository(Worker).createQueryBuilder('worker') 
+        for (let i = 0; i < audios.length; i++){ 
+            
+            audiosNormalize.push(audios[i]);
+
+            audiosNormalize[i].workers = await getRepository(Worker).createQueryBuilder('worker') 
                 .innerJoin('workerHasAudio', 'wha', 'worker.id = wha.workerId') 
                 .innerJoin('audio', 'audio', 'audio.id = wha.audioId')                   
                 .where('audio.id = :id' , {id: audios[i].id})
                 .getMany();
                 
-            audios[i].violationCount = await getRepository(Violation).createQueryBuilder('violation')
+            audiosNormalize[i].violationCount = await getRepository(Violation).createQueryBuilder('violation')
                 .where('violation.audioId = :id' ,{id: audios[i].id})
                 .getCount();
         }
@@ -276,22 +283,28 @@ export default class AudioController{
         }
 
         const audio: Audio | undefined = await getRepository(Audio).createQueryBuilder().where('fileAudio = :filename', {filename: file.name}).getOne();
-        let newAudio: Audio = new Audio();
-        newAudio.changeFields({
-            fileAudio: file.name,
-            text     : result.data.result || '',
-            date     : moment(new Date()).format('YYYY-MM-DD'),
-            isChecked: false,
-            isIllegal: true,
-        });
+
+        let insert: any;
 
         if(audio == undefined) {
-            await getRepository(Audio).insert(newAudio);
+            insert = await getRepository(Audio).save({
+                fileAudio: file.name,
+                text     : result.data.result || '',
+                date     : moment(new Date()).format('YYYY-MM-DD'),
+                isChecked: false,
+                isIllegal: true,
+            });
+
+            console.log(insert);
+
+            await getRepository(WorkerHasAudio).save([{workerId: 1, audioId: insert.id}, {workerId: 2, audioId: insert.id}])
         } else {
             audio.text = result.data.result;
-            await getRepository(Audio).update(audio.id!, audio);
+            await getRepository(Audio).save(audio);
         }
         
+        getFileError(result.data.result);
+
         res.status(200).send({msg: 'Success'});
     }
 
