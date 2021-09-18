@@ -4,7 +4,13 @@ import ErrorMessage       from "../libs/errorMessage";
 import Query              from "../libs/query";
 import { getRepository }  from "typeorm";
 import Audio              from "../models/Audio";
-import { FileArray }      from "express-fileupload";
+import { FileArray, UploadedFile }      from "express-fileupload";
+//@ts-ignore
+import EasyYandex         from 'easy-yandex-s3';
+import axios, { AxiosResponse } from "axios";
+import { createReadStream } from "fs";
+import moment               from 'moment';
+
 
 
 export default class AudioController{
@@ -161,12 +167,64 @@ export default class AudioController{
      * Api для сохранения файла
      * ! Андрей
      */
-    public static addAudioFile(req: Request, res: Response){
+    public static async addAudioFile(req: Request, res: Response){
 
-        let files: FileArray | undefined = req.files;
+        let 
+            uploadedFile: FileArray | undefined = req.files,
+            token       : string                = "t1.9euelZrKisyWio2Xy52SmcfInM6diu3rnpWal56Qz5KPiZSQnY-Pjp6byM_l8_dFKWt1-e9-QQVt_d3z9wVYaHX5735BBW39.75wgZ35ZvrEQCyRyxy0ZvV7VjrwJFZsRgtED9lNjodeb9mGlnc81thFdamNQBNNTCTXXYCkUfUbXmFLcBtChAw",
+            file        : UploadedFile;
 
-        console.log(files);
+        if(uploadedFile == undefined) { res.status(400).send({msg: 'err with files'}); return }
 
+        file = uploadedFile.audio as UploadedFile;
+        await file.mv(`public/audios/${file.name}`);
+
+        const headers = {
+            "Authorization": `Bearer ${token}`
+        };
+        const FOLDER_ID = "b1g3r4lgbvftcmlle452";
+
+        const params = {
+            lang           : "ru-RU",
+            profanityFilter: false,
+            format         : "lpcm",
+            folderId       : FOLDER_ID,
+            sampleRateHertz: 8000
+        }
+
+        const data = createReadStream(`public/audios/${file.name}`);
+
+        let result: Record<string, any> = {};
+
+        try {
+            result = await axios.post(
+                "https://stt.api.cloud.yandex.net/speech/v1/stt:recognize", 
+                data,
+                {
+                    headers, params
+                }
+            );
+        } catch (error) {
+            console.error(error);
+        }
+
+        const audio: Audio | undefined = await getRepository(Audio).createQueryBuilder().where('fileAudio = :filename', {filename: file.name}).getOne();
+        let newAudio: Audio = new Audio();
+        newAudio.changeFields({
+            fileAudio: file.name,
+            text     : result.data.result || '',
+            date     : moment(new Date()).format('YYYY-MM-DD'),
+            isChecked: false,
+            isIllegal: true,
+        });
+
+        if(audio == undefined) {
+            await getRepository(Audio).insert(newAudio);
+        } else {
+            audio.text = result.data.result;
+            await getRepository(Audio).update(audio.id!, audio);
+        }
+        
         res.status(200).send({msg: 'Success'});
     }
 
