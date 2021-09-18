@@ -8,6 +8,7 @@
         <div class="row">
             <h1> Файл: {{record.fileAudio}}</h1>
             <button @click="showPopup = true">Редактировать</button>
+            <button @click="generateReport">Сгенерировать отчёт</button>
             <div>
                 <AudioPlayer v-if="record.fileAudio" v-model:currentTime="currentTimeStamp" :src="`http://localhost:3000/audios/${record.fileAudio}`" />
             </div>
@@ -96,6 +97,7 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import AudioService        from '../services/AudioService';
+    import { jsPDF }           from "jspdf";
     import AudioPlayer         from "@/components/AudioComponents/AudioPlayer.vue";
     import AudioTImeCode       from "@/components/AudioComponents/AudioTimeCode.vue";
     
@@ -145,6 +147,19 @@
                         this.textStatus  = false;
                         break;
                 }
+            },
+            generateReport(): void {
+                const doc = new jsPDF();
+                doc.setLanguage("ru");
+                // text +=
+                doc.text("Отчет", 20, 20, { align: 'center' });
+                
+                for (let i = 0; i < this.record.violation.length; i++) {
+                    const v = this.record.violation[i];
+                    doc.text(`${v.timeCode} ${v.word}`, 20, 40 + 20 * i, { align: 'left' });
+                }
+
+                doc.save("report.pdf");
             }
         },
     });
@@ -169,7 +184,7 @@
         .row:nth-child(2){
             @include grid-left;
             column-gap: 30px;
-            grid-template-columns: max-content max-content 1fr;
+            grid-template-columns: repeat(3, max-content) 1fr;
 
             audio{
                 width: 100%;
