@@ -13,17 +13,27 @@
             />
         </div>
 
-        <div class="row">
+        <div id="statistics" class="row" v-if="filesError.length">
 
-            <div class="error-file" v-for="(file, index) in filesError" :key="index">
+            <h1>Cтатистика сессии</h1>
+
+            <div class="file-error-wrap">
+                <div class="error-file" v-for="(file, index) in filesError" :key="index">
                 
-                <div>
-                    {{file.file.name}}
+                <div class="file-info">
+                    <span>Файл</span>  <h3>{{file.file.name}}</h3>
                 </div>
 
-                <div class="errors" v-for="(error, index) in file.errors" :key="index">
-                    {{error.timeCode}}
+                <div class="errors">
+                    <div class="error" v-for="(error, index) in file.errors" :key="index">
+                        <h5>Ошибка:</h5>
+                        <span>{{error.timeCode}}</span>
+                        <span>{{error.word}}</span>
+                        <span>{{error.typeError}}</span>
+                    </div>
                 </div>
+            </div>
+            
             </div>
         </div>
         
@@ -79,6 +89,49 @@
 
         .row:not(.row:first-child){
             @include page-row;
+        }
+
+        #statistics{
+
+            .file-error-wrap{
+                display: grid;
+                row-gap: 50px;
+            }
+
+            padding: 30px;
+            background: $color;
+            margin: 30px 50px;
+
+            h1{
+                text-align: left;
+                margin-bottom: 30px;
+            }
+            
+            .error-file{
+                display: grid;
+                grid-template-columns: 400px auto;
+
+                .file-info{
+                    display: grid;
+                    grid-auto-flow: column;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    column-gap: 30px;
+                }
+
+                .errors{
+                    display: grid;
+                    row-gap: 30px;
+
+                    .error{
+                        display: grid;
+                        grid-template-columns: max-content max-content 1fr 1fr;
+                        justify-content: flex-start;
+                        column-gap: 20px;
+                    }
+                }
+            }
+            
         }
     }
 </style>

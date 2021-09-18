@@ -12,7 +12,7 @@ import EasyYandex         from 'easy-yandex-s3';
 import axios, { AxiosResponse } from "axios";
 import { createReadStream } from "fs";
 import moment               from 'moment';
-
+import TypeError from "../models/TypeError";
 
 import Violation      from "../models/Violation";
 //import { Worker } from "cluster";
@@ -20,6 +20,7 @@ import Worker         from "../models/Worker";
 import WorkerHasAudio from "../models/workerHasAudio";
 
 import getFileError, {ErrorLexem}   from "../libs/getFileError";
+import { error } from "console";
 
 export default class AudioController{
 
@@ -189,7 +190,6 @@ export default class AudioController{
         if (audio != undefined && audio != null){
             audio.violation = await getRepository(Violation).createQueryBuilder('violation')
             .innerJoin('audio' , 'audio', 'violation.audioId = audio.id')
-            .innerJoin('typeError', 'typeError', 'typeError.id = violation.typeErrorId')
             .where('audio.id = :id' , {id: audio.id} )
             .getMany();            
 
@@ -198,11 +198,14 @@ export default class AudioController{
                 audio.violation[i].worker = await getRepository(Worker).createQueryBuilder()
                     .where('worker.id = :id',{id: audio.violation[i].workerId})
                     .getOne();
+                
+                audio.violation[i].typeError = await getRepository(TypeError).createQueryBuilder()
+                    .where('typeError.id = :id',{id: audio.violation[i].typeErrorId})
+                    .getOne();                    
             }
         }             
 
-        console.log(audio);
-
+        
         res.status(200).send({audio: audio});
     }
 
@@ -308,6 +311,19 @@ export default class AudioController{
         
         const errors: Array<ErrorLexem> = await getFileError(result.data.result, insert ? insert.id : audio!.id);
         console.log('errors:', errors);
+
+        errors.forEach(async err => {
+            
+            await getRepository(Violation).save(
+                {
+                    word    : err.word, 
+                    timeCode: err.timeCode, 
+                    workerId: 1, 
+                    audioId : insert ? insert.id : audio!.id,
+                    typeErrorId: err.typeErrorId,
+                }
+            )
+        });
 
         res.status(200).send({msg: 'Success', id: insert ? insert.id : audio!.id, errors: errors});
     }
