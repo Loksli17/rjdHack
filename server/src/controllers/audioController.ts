@@ -18,8 +18,7 @@ import Violation      from "../models/Violation";
 //import { Worker } from "cluster";
 import Worker         from "../models/Worker";
 import WorkerHasAudio from "../models/workerHasAudio";
-
-import getFileError, {ErrorLexem}   from "../libs/getFileError";
+import getFileError   from "../libs/getFileError";
 
 
 export default class AudioController{
@@ -71,8 +70,6 @@ export default class AudioController{
                 .innerJoin('typeError','typeError','typeError.id = violation.typeError.id')          
                 .getCount();
         }
-
-        console.log(audiosNormalize);
 
         res.status(200).send({audios: audiosNormalize});
     }
@@ -192,6 +189,7 @@ export default class AudioController{
         if (audio != undefined && audio != null){
             audio.violation = await getRepository(Violation).createQueryBuilder('violation')
             .innerJoin('audio' , 'audio', 'violation.audioId = audio.id')
+            .innerJoin('typeError', 'typeError', 'typeError.id = violation.typeErrorId')
             .where('audio.id = :id' , {id: audio.id} )
             .getMany();            
 
@@ -305,13 +303,11 @@ export default class AudioController{
         } else {
             audio.text = result.data.result;
             await getRepository(Audio).save(audio);
-            console.log(audio);
         }
         
-        const errors: Array<ErrorLexem> = await getFileError(result.data.result, insert ? insert.id : audio!.id);
-        console.log('errors:', errors);
+        getFileError(result.data.result);
 
-        res.status(200).send({msg: 'Success', id: insert ? insert.id : audio!.id, errors: errors});
+        res.status(200).send({msg: 'Success'});
     }
 
     /**
