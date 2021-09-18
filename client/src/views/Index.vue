@@ -83,10 +83,10 @@
                     { fieldName: "workers",        displayedName: "Участники диалога", columnHandler: (workers: any) => {
                         let str = "";
                         for (const worker of workers) {
-                            str += `${worker.lastName} ${worker.firstName},`
+                            str += `${worker.lastName} ${worker.firstName[0]}.,`
                         }
                         
-                        return str.slice(0, str.length - 2);
+                        return str.slice(0, str.length - 1);
                     } },
                     { fieldName: "date",           displayedName: "Дата загрузки" },
                     { fieldName: "violationCount", displayedName: "Число нарушений" },
