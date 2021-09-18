@@ -4,6 +4,7 @@ import Audio                  from '../models/Audio';
 import Violation from '../models/Violation';
 import Worker                 from '../models/Worker';
 import TypeError from '../models/TypeError';
+import WorkerHasAudio from '../models/workerHasAudio';
 
 
 const
@@ -22,6 +23,7 @@ const
             Worker,
             TypeError,
             Violation,
+            WorkerHasAudio,
         ],
     }),
 
