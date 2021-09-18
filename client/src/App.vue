@@ -9,6 +9,11 @@
 
 
 <style lang="scss">
+    @import url('https://fonts.googleapis.com/css2?family=Jost:wght@100;200;300;400;500;700&display=swap');
+    body {
+        font-family: Jost, Avenir, Helvetica, Arial, sans-serif;
+    }
+
     #app {
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;

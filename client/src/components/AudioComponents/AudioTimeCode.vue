@@ -11,7 +11,7 @@
         emits: ["get-time"],
         props: {
             time: {
-                type: Number,
+                type: String,
                 required: true
             }
         },
@@ -23,12 +23,12 @@
                 // }
 
                 // return time;
-                return moment.utc(this.time * 1000).format("mm:ss");
+                return this.time;
             }
         },
         methods: {
             emitTIme(): void {
-                this.$emit("get-time", this.time);
+                this.$emit("get-time", moment.duration(`00:${this.time}`).asSeconds());
             }
         }
     })

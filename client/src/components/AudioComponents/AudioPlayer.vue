@@ -6,6 +6,7 @@
     import { defineComponent } from 'vue'
     export default defineComponent({
         name: "audio-player",
+        emits: ["update:current-time"],
         props: {
             src: {
                 type: String,
@@ -15,6 +16,12 @@
                 type: Number,
                 required: true
             }
+        },
+        mounted() {
+            const player = this.$refs.player as HTMLAudioElement;
+            player.addEventListener("seeked", () => {
+                this.$emit("update:current-time", player.currentTime);
+            })
         },
         watch: {
             currentTime: function() {

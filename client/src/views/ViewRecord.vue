@@ -8,7 +8,7 @@
         <div class="row">
             <h1> Файл: {{record.fileAudio}}</h1>
             <button @click="showPopup = true">Редактировать</button>
-            <AudioPlayer v-if="record.fileAudio" :currentTime="currentTimeStamp" :src="`http://localhost:3000/audios/${record.fileAudio}`" />
+            <AudioPlayer v-if="record.fileAudio" v-model:currentTime="currentTimeStamp" :src="`http://localhost:3000/audios/${record.fileAudio}`" />
         </div>
 
         <div class="row">
@@ -45,6 +45,14 @@
 
                     <div class="tab" :class="{'tab-active': errorStatus}">
                         Ошибки
+                        <div class="violation-lst-container">
+                            <ul class="volation-list">
+                                <li v-for="violation in record.violation" :key="violation.id">
+                                    <AudioTImeCode :time="violation.timeCode" @get-time="currentTimeStamp = $event" />
+                                    <span>{{ violation.word }}</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="tab" :class="{'info': infoStatus}">
@@ -88,7 +96,6 @@
     import AudioService        from '../services/AudioService';
     import AudioPlayer         from "@/components/AudioComponents/AudioPlayer.vue";
     import AudioTImeCode       from "@/components/AudioComponents/AudioTimeCode.vue";
-
     
     export default defineComponent({
         name: "view-record",
@@ -219,6 +226,23 @@
                     
                     > .tab{
                         display: none;
+
+                        .violation-lst-container {
+                            width: 100%;
+
+                            ul {
+                                list-style: none;
+
+                                li {
+                                    text-align: left;
+                                    padding: 15px;
+
+                                    span {
+                                        padding-left: 20px;
+                                    }
+                                }
+                            }
+                        }
                     }
 
                      .tab-active{
