@@ -112,6 +112,7 @@
 <style lang="scss">
 
     @import '../assets/scss/utils.scss';
+    $row-padding: 25px;
 
     .view-all{
 
@@ -124,6 +125,8 @@
             @include page-row;
         }
 
+
+
         table {
             border: none;
             border-collapse: separate;
@@ -133,16 +136,33 @@
                 border: none;
             }
                 
-            tr{
-                &:nth-child(odd){
-                    background: #F6F6F6;
-                }
-                &:nth-child(even){
-                    background: #E9E9E9;
-                }
-            }
             tbody {
-                
+                tr{
+                    td {
+                        padding: 15px 15px;
+                        text-align: left;
+
+                        &:first-of-type {
+                            padding-left: $row-padding;
+                        }
+
+                        &:last-of-type {
+                            padding-right: $row-padding;
+                        }
+                    }
+
+                    &:nth-child(odd){
+                        background: #F6F6F6;
+                    }
+                    &:nth-child(even){
+                        background: #E9E9E9;
+                    }
+                    .table-row-action-cell {
+                        display: grid;
+                        grid-template-columns: repeat(2, max-content);
+                        gap: 15px;
+                    }
+                }
             }
 
             .table-header {
@@ -151,22 +171,24 @@
                 background-color: #9E9E9E;
 
                 th {
+                    padding-top: 25px;
                     background-color: #9E9E9E;
                     color: #FFF;
                     font-weight: 600;
                     border: none;
+                    text-align: left;
                 }
 
 
                 .table-header-column-names:first-of-type {
-                    border-top-left-radius: 8px;
+                    border-top-left-radius: 20px;
+                    padding-left: $row-padding;
                 }
 
                 .table-header-column-names:last-of-type {
-                    border-top-right-radius: 8px;
+                    border-top-right-radius: 20px;
+                    padding-right: $row-padding;
                 }
-
-                
             }
         }
     }
