@@ -83,7 +83,10 @@
                         <div>
                             <h4>Работники переговоров</h4>
                             <!-- Добавить нормальный вывод работников -->
-                            <div>{{record.workers}}</div>
+                            <!-- <div>{{record.workers}}</div> -->
+                            <ul class="worker-list" v-if="record.workers">
+                                <li v-for="worker in record.workers">{{ worker.lastName }} {{ worker.firstName }}</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -270,11 +273,13 @@
                         &:hover{
                             transition: 0.4s;
                             background: #f72e24;
+                            color: #FFF;
                         }
                     }
 
                     .selected {
-                        background: #FF6961;;
+                        background: #FF6961;
+                        color: #FFF;
                     }
                 }
             }
