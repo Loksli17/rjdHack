@@ -18,7 +18,8 @@ import Violation      from "../models/Violation";
 //import { Worker } from "cluster";
 import Worker         from "../models/Worker";
 import WorkerHasAudio from "../models/workerHasAudio";
-import getFileError   from "../libs/getFileError";
+
+import getFileError, {ErrorLexem}   from "../libs/getFileError";
 
 
 export default class AudioController{
@@ -301,11 +302,13 @@ export default class AudioController{
         } else {
             audio.text = result.data.result;
             await getRepository(Audio).save(audio);
+            console.log(audio);
         }
         
-        getFileError(result.data.result);
+        const errors: Array<ErrorLexem> = await getFileError(result.data.result, insert ? insert.id : audio!.id);
+        console.log('errors:', errors);
 
-        res.status(200).send({msg: 'Success'});
+        res.status(200).send({msg: 'Success', id: insert ? insert.id : audio!.id, errors: errors});
     }
 
     /**

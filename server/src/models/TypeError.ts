@@ -4,7 +4,7 @@ import {IsEmail, MinLength, IsNotEmpty, MaxLength} from 'class-validator';
 import {IsUniq}                                    from '@join-com/typeorm-class-validator-is-uniq';
 import Violation from './Violation';
 
-@Entity()
+@Entity('typeError')
 export default class TypeError{
 
     public changeFields(user: Partial<TypeError>){
