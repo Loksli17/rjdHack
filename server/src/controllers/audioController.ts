@@ -178,6 +178,7 @@ export default class AudioController{
 
         let
             dataErrors: Array<keyof QueryData> = [],
+            workers   : Array<Worker>          = [],
             audio     : Audio | undefined,
             QueryData : QueryData              = req.body;
 
@@ -194,6 +195,7 @@ export default class AudioController{
             .getMany();            
 
             if (audio.violation != undefined && audio.violation != null)
+
             for (let i = 0 ; i < audio.violation.length; i++){
                 audio.violation[i].worker = await getRepository(Worker).createQueryBuilder()
                     .where('worker.id = :id',{id: audio.violation[i].workerId})
@@ -203,8 +205,14 @@ export default class AudioController{
                     .where('typeError.id = :id',{id: audio.violation[i].typeErrorId})
                     .getOne();                    
             }
-        }             
+        } 
+        
+        workers = await getRepository(Worker).createQueryBuilder('worker')
+            .innerJoin('workerHasAudio', 'wha', 'wha.workerId = worker.id')
+            .where('wha.audioId = :id', {id: audio!.id})
+            .getMany();
 
+        audio!.workers = workers;
         
         res.status(200).send({audio: audio});
     }
