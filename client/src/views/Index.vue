@@ -94,8 +94,8 @@
                 ] as Array<Column>,
 
                 tableActions: [
-                    { name: "Просмотр", path: (id: number) => `/record/${id}/view` },
-                    { name: "Удалить", handler: this.removeRecord }
+                    { name: "Просмотр", path: (id: number) => `/record/${id}/view`, /*imgPath: require("./../assets/logo.png")*/ },
+                    { name: "Удалить", handler: this.removeRecord,  /*imgPath: require("./../assets/logo.png")*/ }
                 ] as Array<Action>,
                
                 showPopup: false as boolean,

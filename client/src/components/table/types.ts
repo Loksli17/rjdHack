@@ -6,7 +6,7 @@ export interface Column {
 
 export interface Action {
     /** Name of the action, which will be displayed in the table */
-    name: string;
+    name?: string;
     /** If action is a route, it requires a specified path, which must
      * be generated for each row of the table, and must include the id of the row
      */
@@ -17,6 +17,7 @@ export interface Action {
      * NOTE: Handlers may require to bind their 'this' parameter
      */
     handler?: (arg: any) => void;
+    imgPath?: string;
     cssClassName?: string;
 }
 
