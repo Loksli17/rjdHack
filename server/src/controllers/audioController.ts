@@ -5,6 +5,7 @@ import Query              from "../libs/query";
 import { getRepository }  from "typeorm";
 import Audio              from "../models/Audio";
 
+
 import { FileArray, UploadedFile }      from "express-fileupload";
 //@ts-ignore
 import EasyYandex         from 'easy-yandex-s3';
@@ -14,9 +15,11 @@ import moment               from 'moment';
 
 
 
+
 import Violation from "../models/Violation";
 //import { Worker } from "cluster";
 import Worker from "../models/Worker";
+import WorkerHasAudio from "../models/workerHasAudio";
 
 
 export default class AudioController{
@@ -112,10 +115,11 @@ export default class AudioController{
 
         if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
     
-        audios = await getRepository(Audio).createQueryBuilder()
+        audios = await getRepository(Audio).createQueryBuilder('audio')
+            .innerJoin('workerHasAudio', 'wha', 'wha.audioId = audio.id') 
             .take(QueryData.take)
             .skip(QueryData.skip)
-            .orderBy('id', "DESC")
+            .orderBy('audio.id', "DESC")
             .getMany();
 
 
@@ -144,9 +148,12 @@ export default class AudioController{
         let valueCount: number = 0;
 
         valueCount = await getRepository(Audio).createQueryBuilder()
+            .innerJoin('workerHasAudio', 'wha', 'wha.audioId = audio.id')
             .getCount();
 
-        res.status(200).send({amount: 40});
+        console.log(valueCount);
+
+        res.status(200).send({countValue: valueCount});
     }
 
 
@@ -169,11 +176,17 @@ export default class AudioController{
 
         if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
 
-        audio = await getRepository(Audio)
-            .findOne(QueryData.id);
+        audio = await getRepository(Audio).findOne(QueryData.id);
 
-        console.log(audio);    
+        
+        // if (audio != undefined && audio != null){
+        //     audio.violation = await getRepository(Violation).createQueryBuilder('violation')
+        //     //.innerJoin('audio' , 'audio', 'violation.audioId = audio.id')
+        //     //.where('audio.id = :id' , {id: audio.id} )
+        //     .getMany();
+        // }      
 
+        console.log(audio);
 
         res.status(200).send({audio: audio});
     }
@@ -293,6 +306,11 @@ export default class AudioController{
 
         if(dataErrors.length) { res.status(400).send({error: ErrorMessage.dataNotSended(dataErrors[0])}); return }
 
+        await getRepository(WorkerHasAudio).createQueryBuilder()
+            .where('audioId = :id', {id: QueryData.id})
+            .delete()
+            .execute();
+            
         await getRepository(Audio).delete(QueryData.id);
 
         res.send({msg: `Запись с ${QueryData.id} удалена`});
@@ -307,7 +325,8 @@ export default class AudioController{
         this.router.all('/edit-workers'   , this.audiosAllIllegal);
         this.router.all('/add-audios'     , this.addAudios);
         this.router.all('/add-audio-file' , this.addAudioFile);
-        this.router.all('/remove',          this.removeAudio);
+        this.router.all('/remove'         , this.removeAudio);
+        this.router.all('/count'          , this.audiosAmountAll);
         
         return this.router;
     }

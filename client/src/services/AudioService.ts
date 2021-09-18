@@ -58,5 +58,27 @@ export default class AudioService{
             }
         });
     }
+
+
+    public static async getAll(take: number, skip: number){
+        
+        const res: AxiosResponse = await axios.post('audio/all', {take: take, skip: skip});
+        
+        res.data.audios = res.data.audios.map((item: any) => {
+            item.isChecked        = item.isChecked ? "Обработан" : "Не обработан";
+            item.isIllegalContent = item.isIllegal ? "С нарушением регламента" : "Без нарушения";
+            item.date             = moment(item.date).format('MMMM Do YYYY');
+            item.date             = item.date[0].toUpperCase() + (item.date.slice(1, (item.date.length)));
+            return item;
+        });
+
+        return res.data.audios;
+    }
+
+    public static async count(){
+        const res = await axios.post('audio/count');
+        console.log(res.data.countValue);
+        return res.data.countValue;
+    }
     
 }
