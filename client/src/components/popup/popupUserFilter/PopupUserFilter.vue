@@ -76,6 +76,8 @@
             },
             resultSubmit(): void {
                 // this.$emit("workers-selected", Array.from(this.selectedWorkersList));
+                // ! this.selectedWorkersList это Set
+                const selectedWorkers = Array.from(this.selectedWorkersList);
                 this.$flashMessage.show({
                     type: "success",
                     title: "Здраствуйте",

@@ -39,6 +39,21 @@ table {
                 gap: 15px;
             }
         }
+
+        tr:last-of-type {
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+
+            td {
+                &:first-of-type {
+                    border-bottom-left-radius: 20px;
+                }
+
+                &:last-of-type {
+                    border-bottom-right-radius: 20px;
+                }
+            }
+        }
     }
 
     .table-header {
